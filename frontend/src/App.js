@@ -4,6 +4,7 @@ import "@/App.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { CartDrawer } from "@/components/landing/CartDrawer";
+import { AccentSwitcher } from "@/components/landing/AccentSwitcher";
 import HomePage from "@/pages/HomePage";
 import ShopPage from "@/pages/ShopPage";
 import ProductPage from "@/pages/ProductPage";
@@ -37,6 +38,7 @@ export default function App() {
   return (
     <div className="App">
       <Toaster position="bottom-right" theme="light" richColors />
+      <AccentSwitcher />
       <BrowserRouter>
         <AuthProvider>
           <CartProvider>

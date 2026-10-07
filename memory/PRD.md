@@ -30,6 +30,9 @@ Build a production-ready TCG ecommerce platform for an Indian trading card game 
 - Admin dashboard: stats (revenue/orders/products/customers), product list + add/delete, order status management, pre-order "release" that notifies reservers.
 - Verified via testing agent: 100% backend + frontend across 12 flows, zero console errors.
 
+### v8 — Accent Explorer
+- Floating "Theme" switcher (bottom-left) to live-swap the brand accent between Crimson, Oxblood and Indigo. Works by overriding Tailwind v4 theme vars (`--color-brand*`) plus shadcn `--primary/accent/ring` on `<html>` at runtime; persisted in `localStorage` and restored by the no-flash inline script. Verified: instant swap across hero/CTAs/badges and persistence across reload, in both light & dark.
+
 ### v7 — Dark mode, paper texture, matte red
 - Softened the brand red to a matte brick-red (`#C0392B`, light `#D9594C`, dark `#8E2A20`); updated `--primary/accent/ring` accordingly.
 - Dark mode: navbar sun/moon toggle adds/removes `.dark` on `<html>`, persisted in `localStorage` with a no-flash inline script in index.html. `.dark` CSS overrides remap the hardcoded light surfaces/text/borders to a charcoal palette with matte-red accents (active chips turn red). CategoryBento overlays and the newsletter card were made theme-independent.
