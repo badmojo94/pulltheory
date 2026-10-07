@@ -1,5 +1,5 @@
 export const IMAGES = {
-  logo: "https://static.prod-images.emergentagent.com/jobs/ec31149b-72a4-412a-94cb-b7cbba8702b5/images/7789613a7ed5721595af5916992e9287667ba134ab04809db5f7f4a89294bafc.jpeg",
+  logo: "https://customer-assets-cm19k8pv.emergentagent.net/job_card-vault-store-1/artifacts/272e7b2a21d84fb3_ChatGPT%20Image%20Sep%2018%2C%202026%2C%2011_14_24%20PM_1080x1080.jpeg",
   heroFoil: "https://static.prod-images.emergentagent.com/jobs/ec31149b-72a4-412a-94cb-b7cbba8702b5/images/06c3f30be7233ef3d565217326e6d815f8a17814da21788b56247f2d0d5b228d.jpeg",
   pokemonBooster: "https://images.unsplash.com/photo-1647893977168-6316f6c9ae44?crop=entropy&cs=srgb&fm=jpg&ixlib=rb-4.1.0&q=85",
   pokemonPacks: "https://images.unsplash.com/photo-1666302937150-44f5af2ab474?crop=entropy&cs=srgb&fm=jpg&ixlib=rb-4.1.0&q=85",

@@ -53,13 +53,13 @@ export const PreOrderHighlights = () => {
                     <CalendarClock className="h-3.5 w-3.5 text-amber-400" />
                     {countdown(p.release)} · {new Date(p.release).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
                   </div>
-                  <button
+                  <a
+                    href="/shop?preorder=true"
                     data-testid={`preorder-reserve-${p.id}`}
-                    onClick={() => toast.success("Pre-order slot reserved", { description: p.name })}
                     className="mt-4 w-full inline-flex items-center justify-center gap-2 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black text-sm font-semibold py-2.5 rounded-full transition-colors"
                   >
                     <Lock className="h-4 w-4" /> Reserve Slot
-                  </button>
+                  </a>
                 </div>
               </div>
             );

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { PRODUCTS } from "@/data/catalog";
+import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
 import { ProductCard } from "./ProductCard";
 
 const TABS = [
@@ -9,9 +9,15 @@ const TABS = [
   { id: "KR", name: "Korean" },
 ];
 
-export const NewArrivals = ({ onAdd }) => {
+export const NewArrivals = () => {
   const [tab, setTab] = useState("all");
-  const list = tab === "all" ? PRODUCTS : PRODUCTS.filter((p) => p.lang === tab);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    api.get("/products", { params: { featured: true } }).then(({ data }) => setProducts(data));
+  }, []);
+
+  const list = tab === "all" ? products : products.filter((p) => p.language === tab);
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
@@ -42,7 +48,7 @@ export const NewArrivals = ({ onAdd }) => {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {list.map((p, i) => (
-          <ProductCard key={p.id} p={p} onAdd={onAdd} index={i} />
+          <ProductCard key={p.id} p={p} index={i} />
         ))}
       </div>
     </section>

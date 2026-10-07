@@ -1,12 +1,24 @@
 import { useEffect, useState } from "react";
-import { Search, ShoppingBag, Menu, X, ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Search, ShoppingBag, Menu, X, ChevronDown, User } from "lucide-react";
 import { IMAGES } from "@/data/catalog";
+import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
-const LINKS = ["Pokémon", "One Piece", "Sealed", "Singles", "Accessories", "Pre-Orders"];
+const LINKS = [
+  { label: "Pokémon", to: "/shop?game=pokemon" },
+  { label: "One Piece", to: "/shop?game=onepiece" },
+  { label: "Sealed", to: "/shop?category=sealed" },
+  { label: "Singles", to: "/shop?category=singles" },
+  { label: "Accessories", to: "/shop?category=accessories" },
+  { label: "Pre-Orders", to: "/shop?preorder=true" },
+];
 
-export const Navbar = ({ cartCount }) => {
+export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { count, setOpen: setCartOpen } = useCart();
+  const { user } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -26,7 +38,7 @@ export const Navbar = ({ cartCount }) => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-6 h-16">
-          <a href="#top" data-testid="navbar-brand-logo" className="flex items-center gap-3 shrink-0">
+          <Link to="/" data-testid="navbar-brand-logo" className="flex items-center gap-3 shrink-0">
             <img src={IMAGES.logo} alt="The Pull Theory" className="h-9 w-9 rounded-md object-cover ring-1 ring-slate-700" />
             <div className="leading-none">
               <div className="font-heading font-extrabold text-sm sm:text-base tracking-[0.18em] text-white">
@@ -36,41 +48,46 @@ export const Navbar = ({ cartCount }) => {
                 TCG SPECIALIST · EST. 2026
               </div>
             </div>
-          </a>
+          </Link>
 
           <div className="hidden lg:flex items-center gap-6 ml-2">
             {LINKS.map((l) => (
-              <a
-                key={l}
-                href="#catalog"
-                data-testid={`nav-link-${l.toLowerCase().replace(/[^a-z]/g, "")}`}
+              <Link
+                key={l.label}
+                to={l.to}
+                data-testid={`nav-link-${l.label.toLowerCase().replace(/[^a-z]/g, "")}`}
                 className="text-sm text-slate-300 hover:text-amber-400 transition-colors"
               >
-                {l}
-              </a>
+                {l.label}
+              </Link>
             ))}
           </div>
 
           <div className="ml-auto flex items-center gap-2 sm:gap-3">
-            <div className="hidden md:flex items-center gap-2 bg-[#11151C] border border-slate-800 rounded-full px-3 py-1.5 w-56 focus-within:border-amber-500/50 transition-colors">
+            <Link to="/shop" className="hidden md:flex items-center gap-2 bg-[#11151C] border border-slate-800 rounded-full px-3 py-1.5 w-56 hover:border-amber-500/50 transition-colors">
               <Search className="h-4 w-4 text-slate-500" />
-              <input
-                data-testid="navbar-search-input"
-                placeholder="Search cards, sets, sealed…"
-                className="bg-transparent text-sm text-slate-200 placeholder:text-slate-500 outline-none w-full"
-              />
+              <span className="text-sm text-slate-500 flex-1 text-left">Search cards, sets, sealed…</span>
               <kbd className="font-mono text-[10px] text-slate-500 border border-slate-700 rounded px-1">⌘K</kbd>
-            </div>
+            </Link>
 
-            <button
-              data-testid="navbar-lang-button"
-              className="hidden sm:flex items-center gap-1 text-sm text-slate-300 hover:text-white px-2 py-1.5 rounded-lg"
-            >
-              IN · ₹ <ChevronDown className="h-3.5 w-3.5" />
-            </button>
+            {user ? (
+              <>
+                {user.role === "admin" && (
+                  <Link to="/admin" data-testid="navbar-admin-link" className="hidden sm:block text-sm text-amber-400 hover:text-amber-300 px-2 py-1.5">Admin</Link>
+                )}
+                <Link to="/account/orders" data-testid="navbar-account-link" className="p-2 rounded-full hover:bg-slate-800/60 transition-colors">
+                  <User className="h-5 w-5 text-slate-200" />
+                </Link>
+              </>
+            ) : (
+              <Link to="/login" data-testid="navbar-login-link" className="hidden sm:flex items-center gap-1 text-sm text-slate-300 hover:text-white px-2 py-1.5 rounded-lg">
+                Sign in <ChevronDown className="h-3.5 w-3.5" />
+              </Link>
+            )}
 
             <button
               data-testid="navbar-cart-button"
+              onClick={() => setCartOpen(true)}
               className="relative p-2 rounded-full hover:bg-slate-800/60 transition-colors"
             >
               <ShoppingBag className="h-5 w-5 text-slate-200" />
@@ -78,7 +95,7 @@ export const Navbar = ({ cartCount }) => {
                 data-testid="navbar-cart-count"
                 className="absolute -top-0.5 -right-0.5 bg-amber-500 text-black text-[10px] font-bold h-4 min-w-4 px-1 rounded-full flex items-center justify-center"
               >
-                {cartCount}
+                {count}
               </span>
             </button>
 
@@ -95,10 +112,11 @@ export const Navbar = ({ cartCount }) => {
         {open && (
           <div className="lg:hidden border-t border-slate-800 bg-[#090B0E] px-4 py-4 flex flex-col gap-3">
             {LINKS.map((l) => (
-              <a key={l} href="#catalog" className="text-slate-300 hover:text-amber-400 py-1" onClick={() => setOpen(false)}>
-                {l}
-              </a>
+              <Link key={l.label} to={l.to} className="text-slate-300 hover:text-amber-400 py-1" onClick={() => setOpen(false)}>
+                {l.label}
+              </Link>
             ))}
+            {!user && <Link to="/login" className="text-amber-400 py-1" onClick={() => setOpen(false)}>Sign in</Link>}
           </div>
         )}
       </nav>
