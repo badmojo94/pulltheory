@@ -30,6 +30,10 @@ Build a production-ready TCG ecommerce platform for an Indian trading card game 
 - Admin dashboard: stats (revenue/orders/products/customers), product list + add/delete, order status management, pre-order "release" that notifies reservers.
 - Verified via testing agent: 100% backend + frontend across 12 flows, zero console errors.
 
+### v6 — Light "washi paper" theme
+- Flipped the whole app from near-black to a vibrant light theme built around the logo's cream paper + crimson + ink: `--background` warm cream, white cards, dark-ink text, crimson primary. Remapped all component surfaces/text (slate + hex) across the frontend.
+- Bold solid colored badges for vibrancy: language pills (indigo JP / blue EN / emerald KR), stock states (emerald In-Stock, amber Low-Stock, purple Pre-Order), dark rarity chips. Sonner toasts switched to light.
+
 ### v5 — Scheduled pre-order drops + countdown banner
 - Platform cron (`.emergent/crons.yml`, hourly `release-preorders`) calls `POST /api/cron/release-preorders` (Bearer `WEBHOOK_CRON_SECRET`, backgrounded). It auto-releases any `is_preorder` product whose `release_date` has passed (sets `is_preorder` false + `released_at`) and notifies every reserver in-app. Manual admin release reuses the same `_release_product` helper. Verified: past-dated drop auto-released + reserver notified; 401 without secret.
 - `GET /api/promo/featured` now returns `expires_at`; the auto-apply banner shows a live "ends in Xd Yh" countdown (ticks each minute) to drive launch urgency.

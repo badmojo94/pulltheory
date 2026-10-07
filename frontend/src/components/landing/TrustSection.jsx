@@ -11,7 +11,7 @@ export const TrustSection = () => (
   <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
     <div className="text-center max-w-2xl mx-auto mb-12">
       <div className="font-mono text-xs uppercase tracking-[0.25em] text-brand mb-3">Why Collectors Trust Us</div>
-      <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
+      <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">
         Built for serious collectors
       </h2>
     </div>
@@ -20,13 +20,13 @@ export const TrustSection = () => (
         <div
           key={it.title}
           data-testid={`trust-card-${it.title.toLowerCase().replace(/[^a-z]+/g, "-")}`}
-          className="rounded-2xl border border-slate-800 bg-[#11151C] p-6 hover:border-slate-700 transition-colors"
+          className="rounded-2xl border border-slate-200 bg-[#FFFFFF] p-6 hover:border-slate-300 transition-colors"
         >
           <div className="h-11 w-11 rounded-xl bg-brand/10 border border-brand/30 flex items-center justify-center mb-4">
             <it.icon className="h-5 w-5 text-brand" />
           </div>
-          <h3 className="font-heading text-base font-bold text-white">{it.title}</h3>
-          <p className="text-sm text-slate-400 mt-2 leading-relaxed">{it.desc}</p>
+          <h3 className="font-heading text-base font-bold text-slate-900">{it.title}</h3>
+          <p className="text-sm text-slate-600 mt-2 leading-relaxed">{it.desc}</p>
         </div>
       ))}
     </div>

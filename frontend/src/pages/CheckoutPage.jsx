@@ -33,7 +33,7 @@ export default function CheckoutPage() {
     return null;
   }
   if (items.length === 0) {
-    return <div className="min-h-screen bg-[#090B0E]"><Navbar /><div className="pt-32 text-center text-slate-400">Your cart is empty. <a href="/shop" className="text-brand">Shop now</a></div></div>;
+    return <div className="min-h-screen bg-[#F7F3EA]"><Navbar /><div className="pt-32 text-center text-slate-600">Your cart is empty. <a href="/shop" className="text-brand">Shop now</a></div></div>;
   }
 
   const shippingFee = subtotal >= 2999 ? 0 : 99;
@@ -118,44 +118,44 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090B0E] text-slate-200 font-body">
+    <div className="min-h-screen bg-[#F7F3EA] text-slate-700 font-body">
       <Navbar />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-28 pb-20 grid md:grid-cols-5 gap-8">
         <div className="md:col-span-3">
-          <h1 className="font-heading text-2xl font-extrabold text-white mb-6">Checkout</h1>
-          <div className="space-y-4 bg-[#11151C] border border-slate-800 rounded-2xl p-6">
-            <div className="font-heading font-bold text-white">Shipping Address</div>
+          <h1 className="font-heading text-2xl font-extrabold text-slate-900 mb-6">Checkout</h1>
+          <div className="space-y-4 bg-[#FFFFFF] border border-slate-200 rounded-2xl p-6">
+            <div className="font-heading font-bold text-slate-900">Shipping Address</div>
             <div className="grid grid-cols-2 gap-3">
               {[["name", "Full name"], ["phone", "Phone"], ["address", "Address", true], ["city", "City"], ["state", "State"], ["pincode", "PIN code"]].map(([k, label, full]) => (
                 <input key={k} data-testid={`ship-${k}`} value={ship[k]} onChange={set(k)} placeholder={label}
-                  className={`bg-[#090B0E] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-brand/60 ${full ? "col-span-2" : ""}`} />
+                  className={`bg-[#F7F3EA] border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-500 outline-none focus:border-brand/60 ${full ? "col-span-2" : ""}`} />
               ))}
             </div>
           </div>
         </div>
 
         <div className="md:col-span-2">
-          <div className="bg-[#11151C] border border-slate-800 rounded-2xl p-6 sticky top-28">
-            <div className="font-heading font-bold text-white mb-4">Order Summary</div>
+          <div className="bg-[#FFFFFF] border border-slate-200 rounded-2xl p-6 sticky top-28">
+            <div className="font-heading font-bold text-slate-900 mb-4">Order Summary</div>
             <div className="space-y-2 max-h-48 overflow-y-auto mb-4">
               {items.map((i) => (
                 <div key={i.id} className="flex justify-between text-sm">
-                  <span className="text-slate-300 truncate pr-2">{i.name} ×{i.quantity}</span>
-                  <span className="text-white shrink-0">{inr(i.price * i.quantity)}</span>
+                  <span className="text-slate-600 truncate pr-2">{i.name} ×{i.quantity}</span>
+                  <span className="text-slate-900 shrink-0">{inr(i.price * i.quantity)}</span>
                 </div>
               ))}
             </div>
             <div className="flex gap-2 mb-4">
               <input data-testid="promo-input" value={promo} onChange={(e) => setPromo(e.target.value.toUpperCase())} placeholder="Promo code"
-                className="flex-1 bg-[#090B0E] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder:text-slate-500 outline-none focus:border-brand/60 uppercase" />
+                className="flex-1 bg-[#F7F3EA] border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 outline-none focus:border-brand/60 uppercase" />
               <button data-testid="promo-apply" onClick={applyPromo}
-                className="px-4 rounded-lg border border-brand/40 text-brand-light text-sm font-semibold hover:bg-brand hover:text-white transition-colors">Apply</button>
+                className="px-4 rounded-lg border border-brand/40 text-brand text-sm font-semibold hover:bg-brand hover:text-slate-900 transition-colors">Apply</button>
             </div>
-            <div className="border-t border-slate-800 pt-3 space-y-2 text-sm">
-              <div className="flex justify-between text-slate-300"><span>Subtotal</span><span>{inr(subtotal)}</span></div>
-              {discount > 0 && <div className="flex justify-between text-emerald-300"><span>Discount ({appliedCode})</span><span>-{inr(discount)}</span></div>}
-              <div className="flex justify-between text-slate-300"><span>Shipping</span><span>{shippingFee === 0 ? "FREE" : inr(shippingFee)}</span></div>
-              <div className="flex justify-between font-bold text-white text-base"><span>Total</span><span>{inr(total)}</span></div>
+            <div className="border-t border-slate-200 pt-3 space-y-2 text-sm">
+              <div className="flex justify-between text-slate-600"><span>Subtotal</span><span>{inr(subtotal)}</span></div>
+              {discount > 0 && <div className="flex justify-between text-emerald-700"><span>Discount ({appliedCode})</span><span>-{inr(discount)}</span></div>}
+              <div className="flex justify-between text-slate-600"><span>Shipping</span><span>{shippingFee === 0 ? "FREE" : inr(shippingFee)}</span></div>
+              <div className="flex justify-between font-bold text-slate-900 text-base"><span>Total</span><span>{inr(total)}</span></div>
               {hasPreorder && (
                 <div className="mt-2 bg-purple-500/10 border border-purple-500/30 rounded-lg p-3 text-xs text-purple-200">
                   Pre-order: pay 20% token now ({inr(amountDue)}), balance {inr(total - amountDue)} on dispatch.

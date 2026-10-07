@@ -30,14 +30,14 @@ export const Hero = () => (
             India's TCG Specialist
           </span>
         </div>
-        <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.05] text-white">
+        <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.05] text-slate-900">
           Chase the pull.
           <br />
           <span className="bg-gradient-to-r from-brand-light via-brand to-brand-dark bg-clip-text text-transparent">
             Collect the proof.
           </span>
         </h1>
-        <p className="mt-6 text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
+        <p className="mt-6 text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed">
           Authentic Pokémon, One Piece & import TCG — sealed boxes, graded singles and
           protection gear, sourced direct from Japan, the US and Korea. Vault-grade packing,
           shipped across India.
@@ -54,7 +54,7 @@ export const Hero = () => (
           <a
             href="/shop?preorder=true"
             data-testid="hero-preorder-cta"
-            className="inline-flex items-center gap-2 border border-slate-700 hover:border-slate-500 text-white px-6 py-3 rounded-full transition-colors"
+            className="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-500 text-slate-900 px-6 py-3 rounded-full transition-colors"
           >
             View Pre-Orders
           </a>
@@ -62,8 +62,8 @@ export const Hero = () => (
         <div className="mt-10 flex gap-8">
           {stats.map((s) => (
             <div key={s.l}>
-              <div className="font-heading text-2xl sm:text-3xl font-extrabold text-white">{s.v}</div>
-              <div className="text-xs text-slate-400 mt-1">{s.l}</div>
+              <div className="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900">{s.v}</div>
+              <div className="text-xs text-slate-600 mt-1">{s.l}</div>
             </div>
           ))}
         </div>
@@ -84,11 +84,11 @@ export const Hero = () => (
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             className="relative rounded-2xl w-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
           />
-          <div className="absolute -bottom-3 -left-3 bg-[#11151C]/90 backdrop-blur border border-slate-700 rounded-xl px-4 py-3 flex items-center gap-2 shadow-xl">
+          <div className="absolute -bottom-3 -left-3 bg-[#FFFFFF]/90 backdrop-blur border border-slate-300 rounded-xl px-4 py-3 flex items-center gap-2 shadow-xl">
             <ShieldCheck className="h-5 w-5 text-emerald-400" />
             <div>
-              <div className="text-xs font-semibold text-white">Anti-Tamper Sealed</div>
-              <div className="text-[10px] text-slate-400">Verified on dispatch</div>
+              <div className="text-xs font-semibold text-slate-900">Anti-Tamper Sealed</div>
+              <div className="text-[10px] text-slate-600">Verified on dispatch</div>
             </div>
           </div>
         </div>

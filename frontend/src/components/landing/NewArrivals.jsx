@@ -24,7 +24,7 @@ export const NewArrivals = () => {
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
         <div>
           <div className="font-mono text-xs uppercase tracking-[0.25em] text-brand mb-3">Fresh on the Shelf</div>
-          <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
+          <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">
             New Arrivals & Featured
           </h2>
         </div>
@@ -36,8 +36,8 @@ export const NewArrivals = () => {
               onClick={() => setTab(t.id)}
               className={`text-xs font-medium px-3.5 py-2 rounded-full border transition-colors ${
                 tab === t.id
-                  ? "bg-white text-black border-white"
-                  : "border-slate-700 text-slate-300 hover:border-slate-500"
+                  ? "bg-slate-900 text-white border-slate-900"
+                  : "border-slate-300 text-slate-600 hover:border-slate-500"
               }`}
             >
               {t.name}

@@ -12,9 +12,9 @@ export const IMAGES = {
 };
 
 export const LANG = {
-  JP: { label: "JP", name: "Japanese", cls: "bg-indigo-500/10 text-indigo-300 border-indigo-500/30" },
-  EN: { label: "EN", name: "English", cls: "bg-blue-500/10 text-blue-300 border-blue-500/30" },
-  KR: { label: "KR", name: "Korean", cls: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" },
+  JP: { label: "JP", name: "Japanese", cls: "bg-indigo-600 text-white border-transparent" },
+  EN: { label: "EN", name: "English", cls: "bg-blue-600 text-white border-transparent" },
+  KR: { label: "KR", name: "Korean", cls: "bg-emerald-600 text-white border-transparent" },
 };
 
 export const CATEGORIES = [

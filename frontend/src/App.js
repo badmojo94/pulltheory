@@ -36,7 +36,7 @@ function AppRouter() {
 export default function App() {
   return (
     <div className="App">
-      <Toaster position="bottom-right" theme="dark" richColors />
+      <Toaster position="bottom-right" theme="light" richColors />
       <BrowserRouter>
         <AuthProvider>
           <CartProvider>

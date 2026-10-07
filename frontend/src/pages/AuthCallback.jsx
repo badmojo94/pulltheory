@@ -27,7 +27,7 @@ export default function AuthCallback() {
   }, [navigate, setUser]);
 
   return (
-    <div className="min-h-screen bg-[#090B0E] flex items-center justify-center text-slate-400">
+    <div className="min-h-screen bg-[#F7F3EA] flex items-center justify-center text-slate-600">
       Signing you in…
     </div>
   );

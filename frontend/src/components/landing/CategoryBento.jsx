@@ -7,11 +7,11 @@ export const CategoryBento = () => (
     <div className="flex items-end justify-between gap-4 mb-10">
       <div>
         <div className="font-mono text-xs uppercase tracking-[0.25em] text-brand mb-3">Browse the Vault</div>
-        <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
+        <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">
           Shop by Category
         </h2>
       </div>
-      <a href="#catalog" className="hidden sm:inline-flex items-center gap-1 text-sm text-slate-300 hover:text-brand">
+      <a href="#catalog" className="hidden sm:inline-flex items-center gap-1 text-sm text-slate-600 hover:text-brand">
         View all <ArrowUpRight className="h-4 w-4" />
       </a>
     </div>
@@ -26,17 +26,17 @@ export const CategoryBento = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: i * 0.06 }}
-          className={`group relative overflow-hidden rounded-2xl border border-slate-800 bg-[#11151C] ${c.span}`}
+          className={`group relative overflow-hidden rounded-2xl border border-slate-200 bg-[#FFFFFF] ${c.span}`}
         >
           <img
             src={c.img}
             alt={c.name}
             className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 group-hover:scale-105 transition-all duration-500"
           />
-          <div className={`absolute inset-0 bg-gradient-to-t ${c.accent} via-[#090B0E]/40 to-[#090B0E]/95`} />
+          <div className={`absolute inset-0 bg-gradient-to-t ${c.accent} via-[#F7F3EA]/40 to-[#F7F3EA]/95`} />
           <div className="relative h-full p-5 flex flex-col justify-end">
-            <div className="font-mono text-[11px] text-slate-300/80">{c.count}</div>
-            <div className="font-heading text-lg sm:text-xl font-bold text-white mt-1 flex items-center gap-1 group-hover:text-brand-light transition-colors">
+            <div className="font-mono text-[11px] text-slate-600/80">{c.count}</div>
+            <div className="font-heading text-lg sm:text-xl font-bold text-slate-900 mt-1 flex items-center gap-1 group-hover:text-brand transition-colors">
               {c.name}
               <ArrowUpRight className="h-4 w-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
             </div>
