@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 import { api, apiError } from "@/lib/api";
 
 const AuthCtx = createContext(null);
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
     refresh();
   }, [refresh]);
 
-  const login = async (email, password) => {
+  const login = useCallback(async (email, password) => {
     try {
       const { data } = await api.post("/auth/login", { email, password });
       setUser(data.user);
@@ -35,9 +35,9 @@ export const AuthProvider = ({ children }) => {
     } catch (e) {
       return { ok: false, error: apiError(e.response?.data?.detail) };
     }
-  };
+  }, []);
 
-  const register = async (name, email, password) => {
+  const register = useCallback(async (name, email, password) => {
     try {
       const { data } = await api.post("/auth/register", { name, email, password });
       setUser(data.user);
@@ -45,15 +45,20 @@ export const AuthProvider = ({ children }) => {
     } catch (e) {
       return { ok: false, error: apiError(e.response?.data?.detail) };
     }
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     await api.post("/auth/logout");
     setUser(false);
-  };
+  }, []);
+
+  const value = useMemo(
+    () => ({ user, loading, login, register, logout, setUser, refresh }),
+    [user, loading, login, register, logout, refresh]
+  );
 
   return (
-    <AuthCtx.Provider value={{ user, loading, login, register, logout, setUser, refresh }}>
+    <AuthCtx.Provider value={value}>
       {children}
     </AuthCtx.Provider>
   );

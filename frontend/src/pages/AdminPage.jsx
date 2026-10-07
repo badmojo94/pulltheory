@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { IndianRupee, Package, ShoppingCart, Users, Plus, Rocket, Trash2 } from "lucide-react";
@@ -19,18 +19,18 @@ export default function AdminPage() {
   const [promos, setPromos] = useState([]);
   const [promoForm, setPromoForm] = useState({ code: "", type: "percent", value: 10, min_order: 0, max_discount: "", usage_limit: "", starts_at: "", expires_at: "", featured: false });
 
-  const loadAll = () => {
+  const loadAll = useCallback(() => {
     api.get("/admin/stats").then(({ data }) => setStats(data)).catch(() => {});
     api.get("/products").then(({ data }) => setProducts(data));
     api.get("/admin/orders").then(({ data }) => setOrders(data)).catch(() => {});
     api.get("/promos").then(({ data }) => setPromos(data)).catch(() => {});
-  };
+  }, []);
 
   useEffect(() => {
     if (user === false) { navigate("/login?redirect=/admin"); return; }
     if (user && user.role !== "admin") { navigate("/"); return; }
     if (user) loadAll();
-  }, [user, navigate]);
+  }, [user, navigate, loadAll]);
 
   const createProduct = async (e) => {
     e.preventDefault();

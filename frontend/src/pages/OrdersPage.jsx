@@ -72,7 +72,7 @@ export default function OrdersPage() {
                 </div>
                 <div className="space-y-1">
                   {o.items.map((it, idx) => (
-                    <div key={idx} className="flex justify-between text-sm"><span className="text-slate-600">{it.name} ×{it.quantity}</span><span className="text-slate-600">{inr(it.price * it.quantity)}</span></div>
+                    <div key={`${o.id}-${it.product_id}-${idx}`} className="flex justify-between text-sm"><span className="text-slate-600">{it.name} ×{it.quantity}</span><span className="text-slate-600">{inr(it.price * it.quantity)}</span></div>
                   ))}
                 </div>
                 <div className="border-t border-slate-200 mt-3 pt-3 flex justify-between text-sm">
