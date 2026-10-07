@@ -1,6 +1,6 @@
 import os
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from db import db
 from auth import hash_password
 
@@ -57,6 +57,10 @@ async def seed():
         ])
     await db.promos.update_many({"featured": {"$exists": False}}, {"$set": {"featured": False}})
     await db.promos.update_one({"code": "WELCOME10"}, {"$set": {"featured": True}})
+    welcome = await db.promos.find_one({"code": "WELCOME10"})
+    if welcome and not welcome.get("expires_at"):
+        exp = (datetime.now(timezone.utc) + timedelta(days=14)).isoformat()
+        await db.promos.update_one({"code": "WELCOME10"}, {"$set": {"expires_at": exp}})
     await db.users.create_index("email", unique=True)
     await db.users.create_index("user_id")
     await db.products.create_index("id")

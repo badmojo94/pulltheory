@@ -7,6 +7,15 @@ import { api } from "@/lib/api";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 
+const countdown = (iso) => {
+  const diff = new Date(iso) - Date.now();
+  if (diff <= 0) return null;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  return d > 0 ? `${d}d ${h}h` : `${h}h ${m}m`;
+};
+
 const LINKS = [
   { label: "Pokémon", to: "/shop?game=pokemon" },
   { label: "One Piece", to: "/shop?game=onepiece" },
@@ -23,6 +32,7 @@ export const Navbar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [featured, setFeatured] = useState(null);
+  const [, setTick] = useState(0);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -36,7 +46,13 @@ export const Navbar = () => {
     }).catch(() => {});
   }, []);
 
+  useEffect(() => {
+    const t = setInterval(() => setTick((n) => n + 1), 60000);
+    return () => clearInterval(t);
+  }, []);
+
   const promoLabel = featured ? (featured.type === "percent" ? `${featured.value}% OFF` : `₹${featured.value} OFF`) : "";
+  const remaining = featured?.expires_at ? countdown(featured.expires_at) : null;
 
   const applyFeatured = () => {
     localStorage.setItem("tpt_promo", featured.code);
@@ -56,6 +72,7 @@ export const Navbar = () => {
           <span className="flex items-center gap-1.5">
             <Tag className="h-3.5 w-3.5" /> Use code <strong className="font-bold">{featured.code}</strong> for {promoLabel}
             {featured.min_order ? <span className="opacity-80">on orders over ₹{featured.min_order}</span> : null}
+            {remaining ? <span className="font-bold">· ends in {remaining}</span> : null}
           </span>
           <button data-testid="promo-banner-apply" onClick={applyFeatured} className="bg-white/95 hover:bg-white text-brand font-bold rounded-full px-3 py-0.5 transition-colors">Apply</button>
           <button data-testid="promo-banner-dismiss" onClick={dismissBanner} className="opacity-80 hover:opacity-100"><X className="h-3.5 w-3.5" /></button>

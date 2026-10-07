@@ -1,0 +1,8 @@
+crons:
+  - name: release-preorders
+    description: "Hourly check that auto-releases pre-orders past their release date and notifies reservers"
+    cron: "0 * * * *"
+    endpoint: "{{BASE_URL}}/api/cron/release-preorders"
+    method: POST
+    # Cron endpoints must ack 2xx immediately; enqueue/background the actual work.
+    enabled: true

@@ -4,7 +4,7 @@ import hmac
 import hashlib
 from datetime import datetime, timezone
 from typing import Optional, List
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Request, BackgroundTasks
 from pydantic import BaseModel
 from db import db
 from auth import get_current_user, require_admin
@@ -219,7 +219,7 @@ async def featured_promo():
                 continue
         if p.get("usage_limit") and p.get("used_count", 0) >= p["usage_limit"]:
             continue
-        return {"code": p["code"], "type": p["type"], "value": p["value"], "min_order": p.get("min_order", 0)}
+        return {"code": p["code"], "type": p["type"], "value": p["value"], "min_order": p.get("min_order", 0), "expires_at": p.get("expires_at")}
     return None
 
 
@@ -309,13 +309,11 @@ async def admin_update_status(oid: str, body: dict, admin=Depends(require_admin)
     return {"ok": True}
 
 
-@shop_router.post("/admin/products/{pid}/release")
-async def release_preorder(pid: str, admin=Depends(require_admin)):
+async def _release_product(pid):
     p = await db.products.find_one({"id": pid}, {"_id": 0})
     if not p:
-        raise HTTPException(status_code=404, detail="Product not found")
-    await db.products.update_one({"id": pid}, {"$set": {"is_preorder": False}})
-    # notify everyone who reserved it
+        return None
+    await db.products.update_one({"id": pid}, {"$set": {"is_preorder": False, "released_at": now_iso()}})
     orders = await db.orders.find({"items.product_id": pid, "is_preorder": True}, {"_id": 0}).to_list(1000)
     for o in orders:
         await db.notifications.insert_one({
@@ -323,7 +321,46 @@ async def release_preorder(pid: str, admin=Depends(require_admin)):
             "title": f"{p['name']} has arrived!",
             "body": f"Your pre-order is now in stock. Balance of ₹{o['balance_due']} due for dispatch.",
             "read": False, "created_at": now_iso()})
-    return {"ok": True, "notified": len(orders)}
+    return len(orders)
+
+
+@shop_router.post("/admin/products/{pid}/release")
+async def release_preorder(pid: str, admin=Depends(require_admin)):
+    notified = await _release_product(pid)
+    if notified is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return {"ok": True, "notified": notified}
+
+
+CRON_SECRET = os.environ.get("WEBHOOK_CRON_SECRET", "")
+
+
+async def _run_preorder_release():
+    now = datetime.now(timezone.utc)
+    due = await db.products.find({"is_preorder": True, "release_date": {"$ne": None}}, {"_id": 0}).to_list(2000)
+    for p in due:
+        raw = p.get("release_date")
+        if not raw:
+            continue
+        try:
+            rd = datetime.fromisoformat(raw if "T" in raw else raw + "T00:00:00")
+        except (ValueError, TypeError):
+            continue
+        if rd.tzinfo is None:
+            rd = rd.replace(tzinfo=timezone.utc)
+        if rd <= now:
+            await _release_product(p["id"])
+
+
+@shop_router.post("/cron/release-preorders")
+async def cron_release_preorders(request: Request, background: BackgroundTasks):
+    # Cron endpoints must ack 2xx immediately; enqueue/background the actual work.
+    auth = request.headers.get("Authorization", "")
+    token = auth[7:] if auth.startswith("Bearer ") else ""
+    if not CRON_SECRET or not hmac.compare_digest(token, CRON_SECRET):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    background.add_task(_run_preorder_release)
+    return {"ok": True, "queued": True}
 
 
 @shop_router.get("/admin/stats")

@@ -30,6 +30,10 @@ Build a production-ready TCG ecommerce platform for an Indian trading card game 
 - Admin dashboard: stats (revenue/orders/products/customers), product list + add/delete, order status management, pre-order "release" that notifies reservers.
 - Verified via testing agent: 100% backend + frontend across 12 flows, zero console errors.
 
+### v5 — Scheduled pre-order drops + countdown banner
+- Platform cron (`.emergent/crons.yml`, hourly `release-preorders`) calls `POST /api/cron/release-preorders` (Bearer `WEBHOOK_CRON_SECRET`, backgrounded). It auto-releases any `is_preorder` product whose `release_date` has passed (sets `is_preorder` false + `released_at`) and notifies every reserver in-app. Manual admin release reuses the same `_release_product` helper. Verified: past-dated drop auto-released + reserver notified; 401 without secret.
+- `GET /api/promo/featured` now returns `expires_at`; the auto-apply banner shows a live "ends in Xd Yh" countdown (ticks each minute) to drive launch urgency.
+
 ### v4 — Promo scheduling + auto-apply banner
 - Promo codes now support `starts_at` / `expires_at` — `_apply_promo` and the featured endpoint enforce the active window (future codes blocked "not active yet", expired blocked). Admin form has start/end date pickers + "Feature in banner" toggle; list shows the date window and ★ for featured.
 - Public `GET /api/promo/featured` returns the currently-active featured code. Dismissible site-wide banner in the Navbar announcement bar advertises it; "Apply" saves the code to localStorage and checkout auto-applies it on load. Dismiss is remembered per code.
