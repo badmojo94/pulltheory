@@ -1,0 +1,52 @@
+{
+  "summary": "Full E2E frontend testing on desktop 1280x720 against public preview URL. Verified: landing, register, login (customer + admin), shop filters, product detail + add-to-cart, cart drawer, DEMO-mode checkout (normal + pre-order), orders page, admin dashboard (stats, products list, add-product form, orders tab, release flow), and in-app notifications end-to-end (reserver received a new 'now in stock' notification after admin released the pre-order). Backend was separately curl-verified by main agent and spot-checked here via /api/products and the /api/admin/products/.../release call (200, {ok:true, notified:1}). Zero uncaught JS/page errors; only expected 401 on /api/auth/me before login.",
+  "tested_scope": ["frontend", "integration"],
+  "passed": [
+    "Landing page (/) loads: navbar (brand, cart button+count), hero, categories, 8 featured products from API, pre-orders, trust, footer",
+    "Register (/register): new email+password lands logged-in on / with navbar-account-link visible and 'Account created!' toast",
+    "Login (/login) with admin credentials shows navbar-admin-link + 'Admin' link in nav; /admin loads with Overview stats (Revenue ₹28,798, 4 orders, 11 products, 5 customers)",
+    "Shop (/shop) lists 11 products from API; shop-cat-sealed=5, shop-cat-singles=3, shop-cat-accessories=0, shop-cat-all=11 filter changes verified",
+    "Product detail (/product/:id) loads; qty +/- controls present; product-add-to-cart adds to cart and bumps navbar-cart-count",
+    "Cart drawer (cart-drawer) opens with items, qty +/- and remove visible; cart-checkout-button navigates to /checkout",
+    "Checkout (/checkout) requires login; all ship-* fields render; place-order-button places order in DEMO mode WITHOUT Razorpay popup and redirects to /account/orders",
+    "Normal order shows status 'Confirmed' with Paid = full amount (₹12,499)",
+    "Pre-order (One Piece OP-10 Royal Bloodline Box, ₹6,999) shows status 'Reserved' + 'Pre-Order' badge, Paid ₹1,400 (20% token) and 'Balance ₹5,599 on dispatch' — matches 20% token rule",
+    "Orders page (/account/orders) shows order list and 'Pre-order reserved' notification",
+    "Admin Products tab shows release-<id> buttons on pre-order products; clicking release returns 200 {ok:true, notified:1} and shows 'Released — notified 1 reserver(s)' toast",
+    "Reserving customer, after admin release, sees NEW notification: 'One Piece OP-10 Royal Bloodline Box has arrived! Your pre-order is now in stock. Balance of ₹5599 due for dispatch.'",
+    "Admin Orders tab lists all orders with status dropdowns (reserved/confirmed)",
+    "Google OAuth button present on /login (Continue with Google) — redirect not automated per instructions",
+    "No uncaught console / page errors across the full flow (only expected pre-login 401 on /auth/me)"
+  ],
+  "backend_issues": { "critical": [], "minor": [] },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [],
+    "testid_gaps": [
+      {"page": "Navbar", "issue": "Logo uses data-testid='navbar-brand-logo' but review request named it 'navbar-logo' — minor mismatch, both work via visible logo. Consider aliasing."},
+      {"page": "ShopPage", "issue": "Product cards use data-testid='shop-product-<id>' instead of 'product-card-<id>' as mentioned in review. Game/language filter buttons (shop-game-*, shop-lang-*) are NOT present as data-testids — only shop-cat-* exists. Buttons are visually present and functional."},
+      {"page": "CartDrawer", "issue": "No per-item qty +/- or remove data-testid prefixes (cart-item-qty-plus/minus/remove not found as prefixes). Buttons work via click but cannot be targeted by testid."},
+      {"page": "AdminPage Add tab", "issue": "Only np-name and np-submit have data-testid; np-price/np-stock/np-category/np-game/np-language/np-image are missing. Add product form is functional, but automated testing of validation would need those."},
+      {"page": "OrdersPage", "issue": "Notifications use testid 'notif-<id>' not 'notification-<id>'. Works but naming inconsistent with review spec."}
+    ]
+  },
+  "critical_code_review_comments": [
+    "ProductPage auto-opens cart drawer after add-to-cart which caused Playwright to find navbar-cart-button intercepted; functionally fine but worth noting for test automation.",
+    "CheckoutPage uses process.env correctly via api client; Razorpay DEMO fallback (checkout -> verify without script) works as intended when PAYMENTS_LIVE=false.",
+    "Admin release endpoint correctly increments notification count for all users who reserved that product (verified: 1 reserver notified)."
+  ],
+  "test_report_links": [
+    "/app/test_reports/iteration_2.json"
+  ],
+  "action_items": [
+    "Optional: add missing data-testids (cart-item-qty-plus-<id>, cart-item-qty-minus-<id>, cart-item-remove-<id>, shop-game-*, shop-lang-*, np-price, np-stock, np-category, np-game, np-language, np-image) to match review spec and ease future automation. Not functional bugs."
+  ],
+  "updated_files": [],
+  "success_rate": { "backend": "100% (spot-checked via /api/products + release call; main agent curl-verified)", "frontend": "100% functional (all 12 requested flows pass)" },
+  "test_credentials": "Admin: admin@thepulltheory.in / Admin@12345. Dynamically-registered customers e.g. test_cust_1791397094@example.com / Testpass@123 (used for reserver verification).",
+  "seed_data_creation": "Registered 3 fresh customer accounts via /register during testing; placed 1 normal order (Terastal Festival ex Booster Box ₹12,499 confirmed) and 1 pre-order reservation (One Piece OP-10 Royal Bloodline Box ₹6,999 reserved, ₹1,400 token paid); admin released 'One Piece OP-10 Royal Bloodline Box' pre-order which notified 1 reserver.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "All 12 flows in the review request work end-to-end. Minor testid naming gaps noted (see testid_gaps) — not bugs, just automation hints. Pre-login 401 on /api/auth/me is expected and not a bug. DEMO payment mode (empty Razorpay keys) is intentional and working. Google OAuth button is present on /login; full OAuth redirect wasn't automated."
+}

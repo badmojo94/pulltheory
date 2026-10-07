@@ -18,20 +18,26 @@ Build a production-ready TCG ecommerce platform for an Indian trading card game 
 - Logo-driven cohesive palette, WCAG contrast, dark theme.
 
 ## Implemented (2026-06)
-- Sticky glass navbar: announcement bar, logo wordmark, category links, search, locale (IN·₹), cart counter, mobile menu.
-- Hero: brand statement, dual CTAs, floating holo-foil pack, stat counters, trust badge.
-- Category bento grid (Pokémon, One Piece, Sealed, Singles, Accessories).
-- New Arrivals grid with JP/EN/KR language filter tabs, stock/rarity badges, add-to-cart (client-side count + toast).
-- Pre-order highlights with live countdowns and reserve toasts.
-- Trust section (authenticity, packing, sourcing, proof).
-- VIP newsletter signup (toast) + full footer with payment methods.
-- Verified via testing agent: 100% frontend, zero console errors.
+### v1 — Landing page
+- Glass navbar, hero, category bento, featured grid, pre-order highlights, trust section, newsletter, footer.
+### v2 — Full ecommerce
+- Real catalog in MongoDB (products collection, 11 seeded incl 3 pre-orders); `/api/products` with category/game/language/preorder/featured filters; product detail pages.
+- Auth: JWT email/password (bcrypt, httpOnly cookie) + Emergent Google OAuth, unified `users` collection; admin role.
+- Cart: localStorage-backed cart drawer (add/qty/remove), subtotal + free-shipping over ₹2,999.
+- Checkout: shipping form → `/api/checkout` creates order; Razorpay Checkout when keys present, DEMO auto-confirm fallback when keys empty; signature verification; stock decrement.
+- Pre-orders: 20% token charged upfront, balance tracked for dispatch; reservation + release in-app notifications.
+- Order history page; in-app notifications.
+- Admin dashboard: stats (revenue/orders/products/customers), product list + add/delete, order status management, pre-order "release" that notifies reservers.
+- Verified via testing agent: 100% backend + frontend across 12 flows, zero console errors.
+
+## Known notes / MOCKED
+- **Razorpay is in DEMO payment mode** (RAZORPAY_KEY_ID/SECRET empty in backend/.env). Orders confirm without a real charge until the user adds live keys; full Razorpay Checkout code is wired and switches on automatically once keys are set.
 
 ## Backlog (prioritized)
-- **P0**: Backend product catalog + MongoDB models; real cart drawer with persistence; product detail pages.
-- **P1**: Customer accounts/auth; checkout + payments (Razorpay/Stripe for India); search; order management.
-- **P2**: Admin dashboard, inventory management, promotions, analytics, order notifications, SEO/sitemap, i18n for international.
+- **P0**: Add live Razorpay keys (switch off DEMO mode) + webhook endpoint; order confirmation emails.
+- **P1**: Product search bar wiring, promotions/coupons, wishlists, address book, balance-payment flow for released pre-orders.
+- **P2**: Analytics charts in admin, inventory alerts, SEO (sitemap/meta/OG), reviews, international shipping + multi-currency.
 
 ## Next Tasks
-- Introduce backend product API + real catalog data, then wire the storefront grid to it.
-- Build cart drawer + checkout flow.
+- Collect Razorpay live/test keys and enable real payments + webhook.
+- Build the balance-payment flow so released pre-orders can be paid off for dispatch.
