@@ -1,0 +1,142 @@
+{
+  "brand_identity": {
+    "name": "The Pull Theory",
+    "tagline": "India's Premier Destination for Authentic TCG & Collectibles",
+    "positioning": "Serious specialist TCG retailer for Pokémon, One Piece, Japanese/English/Korean sealed booster boxes, high-value singles, and card protection accessories. Premium, authentic, transparent, collector-focused.",
+    "logo_wordmark_treatment": {
+      "style": "High-contrast technical serif + geometric mono tag",
+      "primary_text": "THE PULL THEORY",
+      "typography": "Syne / Cormorant Garamond for main wordmark (Bold, Uppercase, tracking-[0.18em]), paired with JetBrains Mono for sub-line 'TCG SPECIALIST // EST. 2026'",
+      "visual_icon": "Holographic prismatic foil diamond grid mark representing the thrill of 'the pull' (sealed pack foil flash)",
+      "badge_variant": "Embossed Obsidian obsidian badge with 1px Electric Amber / Foil Violet border and metallic sheen"
+    }
+  },
+  "typography": {
+    "font_family_heading": "Syne, sans-serif",
+    "font_family_body": "Plus Jakarta Sans, sans-serif",
+    "font_family_mono": "JetBrains Mono, monospace",
+    "font_imports": [
+      "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Syne:wght@600;700;800&display=swap"
+    ],
+    "scale": {
+      "h1_hero": "text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none",
+      "h2_section": "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight",
+      "h3_card": "text-xl sm:text-2xl font-bold tracking-snug",
+      "h4_title": "text-lg sm:text-xl font-semibold",
+      "body_main": "text-base text-slate-300 leading-relaxed",
+      "body_muted": "text-sm text-slate-400 leading-normal",
+      "eyebrow_mono": "text-xs font-mono uppercase tracking-[0.25em] text-amber-400 font-semibold"
+    }
+  },
+  "colors": {
+    "theme": "Dark Obsidian & Holo Prismatic Luxury",
+    "palette": {
+      "background": "#090B0E",
+      "background_card": "#11151C",
+      "background_surface_elevated": "#1A202C",
+      "foreground_primary": "#F8FAFC",
+      "foreground_secondary": "#94A3B8",
+      "border_default": "#1E293B",
+      "border_highlight": "#334155",
+      "accent_gold": "#F59E0B",
+      "accent_amber_glow": "#FFB020",
+      "accent_holo_cyan": "#06B6D4",
+      "accent_holo_purple": "#8B5CF6",
+      "accent_holo_pink": "#EC4899",
+      "badge_pokemon_yellow": "#EAB308",
+      "badge_onepiece_red": "#EF4444",
+      "badge_japanese_indigo": "#6366F1",
+      "badge_english_blue": "#3B82F6",
+      "badge_korean_emerald": "#10B981"
+    },
+    "gradients": {
+      "holo_foil": "bg-gradient-to-r from-amber-400 via-purple-500 to-cyan-400",
+      "hero_radial": "radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, 0.15) 0%, rgba(139, 92, 246, 0.08) 45%, rgba(9, 11, 14, 0) 80%)",
+      "card_shimmer": "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 60%)",
+      "border_gold_spark": "linear-gradient(90deg, #F59E0B, #8B5CF6, #06B6D4)"
+    }
+  },
+  "visual_enhancers": {
+    "foil_shimmer_effect": "1px hover border glow with linear-gradient background shift, dynamic subtle tilted 3D shadow",
+    "card_frame_style": "1px solid #1E293B with rounded-xl backdrop-blur-md bg-[#11151C]/90 hover:border-amber-500/50 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.5)]",
+    "region_badges": "Pill containers with low-opacity backdrop (e.g. `bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono text-xs px-2.5 py-1 rounded-full`)",
+    "glassmorphism_nav": "fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#090B0E]/85 border-b border-slate-800/80"
+  },
+  "layout_and_grid": {
+    "hero_section": "Split asymmetric grid (col-span-12 lg:col-span-7 text & brand statement + col-span-12 lg:col-span-5 interactive featured card pull showcase)",
+    "category_grid": "Tetris Bento grid layout with asymmetrical feature cards for Pokémon, One Piece, Sealed Booster Boxes, Japanese Singles, Accessories, Pre-orders",
+    "product_carousel": "Horizontal overflow-x-auto snap-x snap-mandatory flex gap-6 pb-4 scrollbar-thin scrollbar-thumb-slate-800",
+    "trust_section": "3-column grid highlighting Authenticity Guarantee, Vault-Grade Shipping in India, and Direct Sourcing from Japan/USA"
+  },
+  "key_components": [
+    {
+      "name": "HeaderNav",
+      "description": "Sticky top bar with announcement banner ('100% Guaranteed Sealed Products | Free Express Shipping Across India over ₹2,999'), logo treatment, category quick links, language dropdown, live search input with keyboard shortcut tooltip, and cart drawer button with counter badge."
+    },
+    {
+      "name": "HeroSection",
+      "description": "High-impact brand positioning statement, dynamic 'Holo Foil Pulling' visual card preview card with flip/shimmer micro-interaction, quick stat counters (50,000+ Packs Opened, 100% Authentic Guarantee, 4.9/5 Collector Rating), and dual CTAs ('Explore Sealed Stock' & 'View Pre-Orders')."
+    },
+    {
+      "name": "CategoryBento",
+      "description": "Interactive grid highlighting categories (Pokémon TCG, One Piece TCG, Japanese Booster Boxes, Rare Singles, Protection & Sleeves, Upcoming Pre-orders) with custom count chips and high-res imagery."
+    },
+    {
+      "name": "ProductGrid",
+      "description": "Featured products & New Arrivals card matrix with language pill badges (JP/EN/KR), stock state badges ('In Stock', 'Pre-Order', 'Low Stock'), rarity indicators, INR price formatting (₹), and instant 'Add to Cart' slide button."
+    },
+    {
+      "name": "LanguageRegionFilter",
+      "description": "Filter tab selector for Japanese (Direct Import), English (US/EU Print), and Korean TCG editions with explanatory tooltips regarding set print quality and pull rates."
+    },
+    {
+      "name": "PreOrderHighlights",
+      "description": "Dedicated release radar section with countdown timer for major upcoming set drops (e.g., Pokémon SV8a Terastal Festival, One Piece OP-09) with reserve lock CTA."
+    },
+    {
+      "name": "WhyUsTrustSection",
+      "description": "Collector-oriented trust matrix: Anti-tamper bubble wrap guarantee, video proof of packing, verified serial check, and instant India-wide courier dispatch."
+    },
+    {
+      "name": "NewsletterFooter",
+      "description": "VIP Collector Club newsletter signup with perk callouts (Early Access to Japanese Booster Drops), payment method icons (UPI, Cards, NetBanking), and comprehensive navigation links."
+    }
+  ],
+  "media_urls": {
+    "pokemon_booster": "https://images.unsplash.com/photo-1647893977168-6316f6c9ae44?crop=entropy&cs=srgb&fm=jpg&ixlib=rb-4.1.0&q=85",
+    "pokemon_packs": "https://images.unsplash.com/photo-1666302937150-44f5af2ab474?crop=entropy&cs=srgb&fm=jpg&ixlib=rb-4.1.0&q=85",
+    "yu_gi_oh_anime": "https://images.unsplash.com/photo-1742743032010-9f7badd168df?crop=entropy&cs=srgb&fm=jpg&ixlib=rb-4.1.0&q=85",
+    "collector_cards_table": "https://images.unsplash.com/photo-1742743031805-aa88ee5f300b?crop=entropy&cs=srgb&fm=jpg&ixlib=rb-4.1.0&q=85",
+    "rare_holo_single": "https://images.unsplash.com/photo-1708856034151-5de6269965bf?crop=entropy&cs=srgb&fm=jpg&ixlib=rb-4.1.0&q=85",
+    "onepiece_manga_cover": "https://images.unsplash.com/photo-1734517709196-48873cca9599?crop=entropy&cs=srgb&fm=jpg&ixlib=rb-4.1.0&q=85"
+  },
+  "testing_and_attributes": {
+    "required_data_testid_rules": "All buttons, navigation tabs, filter buttons, search input, card items, cart drawer triggers, and price indicators MUST carry kebab-case role-based data-testid attributes.",
+    "sample_test_ids": [
+      "navbar-brand-logo",
+      "navbar-search-input",
+      "navbar-cart-button",
+      "hero-explore-cta",
+      "category-card-pokemon",
+      "category-card-onepiece",
+      "filter-language-jp",
+      "filter-language-en",
+      "product-card-1",
+      "product-add-to-cart-1",
+      "preorder-reserve-button",
+      "newsletter-email-input",
+      "newsletter-submit-button"
+    ]
+  },
+  "javascript_file_convention": {
+    "file_extension": "All React frontend component files MUST use .js or .jsx extensions (not .tsx)."
+  },
+  "instructions_to_main_agent": [
+    "Follow the Dark Obsidian & Holo Prismatic luxury aesthetic throughout the React application.",
+    "Ensure header/navigation bar is NEVER transparent over content; always use backdrop-blur-xl bg-[#090B0E]/90 with border-b border-slate-800.",
+    "Provide clear data-testid on every interactive element.",
+    "Format currency prices in Indian Rupees (₹) with realistic TCG collector pricing.",
+    "Make sure all components are written in .js / .jsx file format.",
+    "Implement Sonner toast notifications for cart additions and wishlist interactions."
+  ]
+}
