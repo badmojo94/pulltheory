@@ -30,6 +30,11 @@ Build a production-ready TCG ecommerce platform for an Indian trading card game 
 - Admin dashboard: stats (revenue/orders/products/customers), product list + add/delete, order status management, pre-order "release" that notifies reservers.
 - Verified via testing agent: 100% backend + frontend across 12 flows, zero console errors.
 
+### v7 — Dark mode, paper texture, matte red
+- Softened the brand red to a matte brick-red (`#C0392B`, light `#D9594C`, dark `#8E2A20`); updated `--primary/accent/ring` accordingly.
+- Dark mode: navbar sun/moon toggle adds/removes `.dark` on `<html>`, persisted in `localStorage` with a no-flash inline script in index.html. `.dark` CSS overrides remap the hardcoded light surfaces/text/borders to a charcoal palette with matte-red accents (active chips turn red). CategoryBento overlays and the newsletter card were made theme-independent.
+- Subtle paper/ink grain via a fixed `html::before` feTurbulence SVG (soft-light in light, screen in dark).
+
 ### v6 — Light "washi paper" theme
 - Flipped the whole app from near-black to a vibrant light theme built around the logo's cream paper + crimson + ink: `--background` warm cream, white cards, dark-ink text, crimson primary. Remapped all component surfaces/text (slate + hex) across the frontend.
 - Bold solid colored badges for vibrancy: language pills (indigo JP / blue EN / emerald KR), stock states (emerald In-Stock, amber Low-Stock, purple Pre-Order), dark rarity chips. Sonner toasts switched to light.

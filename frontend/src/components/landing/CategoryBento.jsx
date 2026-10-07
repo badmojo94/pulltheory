@@ -33,10 +33,10 @@ export const CategoryBento = () => (
             alt={c.name}
             className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 group-hover:scale-105 transition-all duration-500"
           />
-          <div className={`absolute inset-0 bg-gradient-to-t ${c.accent} via-[#F7F3EA]/40 to-[#F7F3EA]/95`} />
+          <div className={`absolute inset-0 bg-gradient-to-t ${c.accent} via-black/30 to-black/95`} />
           <div className="relative h-full p-5 flex flex-col justify-end">
-            <div className="font-mono text-[11px] text-slate-600/80">{c.count}</div>
-            <div className="font-heading text-lg sm:text-xl font-bold text-slate-900 mt-1 flex items-center gap-1 group-hover:text-brand transition-colors">
+            <div className="font-mono text-[11px] text-white/70">{c.count}</div>
+            <div className="font-heading text-lg sm:text-xl font-bold text-white mt-1 flex items-center gap-1 group-hover:text-brand-light transition-colors">
               {c.name}
               <ArrowUpRight className="h-4 w-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
             </div>

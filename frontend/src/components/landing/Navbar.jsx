@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, ShoppingBag, Menu, X, ChevronDown, User, Tag } from "lucide-react";
+import { Search, ShoppingBag, Menu, X, ChevronDown, User, Tag, Sun, Moon } from "lucide-react";
 import { toast } from "sonner";
 import { IMAGES } from "@/data/catalog";
 import { api } from "@/lib/api";
@@ -65,6 +65,15 @@ export const Navbar = () => {
     setFeatured(null);
   };
 
+  const [dark, setDark] = useState(() => typeof document !== "undefined" && document.documentElement.classList.contains("dark"));
+  const toggleTheme = () => {
+    const el = document.documentElement;
+    const next = !el.classList.contains("dark");
+    el.classList.toggle("dark", next);
+    localStorage.setItem("tpt_theme", next ? "dark" : "light");
+    setDark(next);
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       {featured ? (
@@ -120,6 +129,10 @@ export const Navbar = () => {
               <span className="text-sm text-slate-500 flex-1 text-left">Search cards, sets, sealed…</span>
               <kbd className="font-mono text-[10px] text-slate-500 border border-slate-300 rounded px-1">⌘K</kbd>
             </Link>
+
+            <button data-testid="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme" className="p-2 rounded-full hover:bg-slate-200/60 transition-colors">
+              {dark ? <Sun className="h-5 w-5 text-slate-700" /> : <Moon className="h-5 w-5 text-slate-700" />}
+            </button>
 
             {user ? (
               <>

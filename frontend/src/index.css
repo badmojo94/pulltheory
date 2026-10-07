@@ -8,9 +8,9 @@
   --font-heading: 'Syne', sans-serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --color-brand: #D72631;
-  --color-brand-light: #F0434E;
-  --color-brand-dark: #A2141D;
+  --color-brand: #C0392B;
+  --color-brand-light: #D9594C;
+  --color-brand-dark: #8E2A20;
   --color-paper: #F5EFE2;
 }
 
@@ -131,19 +131,19 @@
         --card-foreground: 222 20% 14%;
         --popover: 0 0% 100%;
         --popover-foreground: 222 20% 14%;
-        --primary: 356 70% 48%;
+        --primary: 6 64% 46%;
         --primary-foreground: 0 0% 100%;
         --secondary: 40 25% 90%;
         --secondary-foreground: 222 20% 18%;
         --muted: 40 25% 90%;
         --muted-foreground: 222 10% 42%;
-        --accent: 356 70% 48%;
+        --accent: 6 64% 46%;
         --accent-foreground: 0 0% 100%;
         --destructive: 0 84.2% 60.2%;
         --destructive-foreground: 0 0% 98%;
         --border: 40 18% 83%;
         --input: 40 18% 83%;
-        --ring: 356 70% 48%;
+        --ring: 6 64% 46%;
         --chart-1: 12 76% 61%;
         --chart-2: 173 58% 39%;
         --chart-3: 197 37% 24%;
@@ -152,25 +152,25 @@
         --radius: 0.5rem;
     }
     .dark {
-        --background: 0 0% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 0 0% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 0 0% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 0 0% 9%;
-        --secondary: 0 0% 14.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 0 0% 14.9%;
-        --muted-foreground: 0 0% 63.9%;
-        --accent: 0 0% 14.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
+        --background: 220 16% 7%;
+        --foreground: 210 20% 92%;
+        --card: 220 14% 11%;
+        --card-foreground: 210 20% 92%;
+        --popover: 220 14% 11%;
+        --popover-foreground: 210 20% 92%;
+        --primary: 6 64% 50%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 220 12% 18%;
+        --secondary-foreground: 210 20% 92%;
+        --muted: 220 12% 18%;
+        --muted-foreground: 215 12% 62%;
+        --accent: 6 64% 50%;
+        --accent-foreground: 0 0% 100%;
+        --destructive: 0 62.8% 45%;
         --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 14.9%;
-        --input: 0 0% 14.9%;
-        --ring: 0 0% 83.1%;
+        --border: 220 12% 20%;
+        --input: 220 12% 20%;
+        --ring: 6 64% 50%;
         --chart-1: 220 70% 50%;
         --chart-2: 160 60% 45%;
         --chart-3: 30 80% 55%;
@@ -219,3 +219,34 @@
         border-bottom-color: inherit;
     }
 }
+
+/* ---- Paper / ink grain texture (subtle, both themes) ---- */
+html::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 170px 170px;
+}
+html.dark::before { opacity: 0.09; mix-blend-mode: screen; }
+
+/* ---- Dark mode overrides for hardcoded utilities ---- */
+.dark .bg-\[\#F7F3EA\], .dark .bg-\[\#F7F3EA\]\/90, .dark .bg-\[\#F7F3EA\]\/70, .dark .bg-\[\#F7F3EA\]\/40 { background-color: #0E1116 !important; }
+.dark .bg-\[\#FDFBF6\] { background-color: #141820 !important; }
+.dark .bg-\[\#FFFFFF\], .dark .bg-\[\#FFFFFF\]\/90 { background-color: #181D26 !important; }
+.dark .bg-\[\#FBE9E3\] { background-color: #1D1512 !important; }
+.dark .bg-white { background-color: #181D26 !important; }
+.dark .bg-slate-100 { background-color: #0B0E13 !important; }
+.dark .bg-slate-200 { background-color: #262D38 !important; }
+.dark .bg-slate-900 { background-color: #C0392B !important; }
+.dark .text-slate-900 { color: #EEF2F7 !important; }
+.dark .text-slate-700 { color: #CDD4DE !important; }
+.dark .text-slate-600 { color: #A7AFBC !important; }
+.dark .text-slate-500 { color: #8A94A2 !important; }
+.dark .border-slate-200 { border-color: #262C35 !important; }
+.dark .border-slate-300 { border-color: #2F3640 !important; }
+.dark .ring-slate-300 { --tw-ring-color: #2F3640 !important; }

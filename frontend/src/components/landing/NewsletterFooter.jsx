@@ -22,7 +22,7 @@ export const NewsletterFooter = () => {
   return (
     <footer className="border-t border-slate-200 bg-[#F7F3EA]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
-        <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-[#FBE9E3] to-[#FFFFFF] p-8 sm:p-12 mb-16 relative overflow-hidden">
+        <div className="rounded-3xl border border-slate-200 bg-[#FFFFFF] p-8 sm:p-12 mb-16 relative overflow-hidden">
           <div className="absolute -top-20 -right-10 h-60 w-60 bg-brand/10 blur-3xl rounded-full" />
           <div className="relative grid md:grid-cols-2 gap-8 items-center">
             <div>
