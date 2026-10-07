@@ -10,7 +10,7 @@ const ITEMS = [
 export const TrustSection = () => (
   <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
     <div className="text-center max-w-2xl mx-auto mb-12">
-      <div className="font-mono text-xs uppercase tracking-[0.25em] text-amber-400 mb-3">Why Collectors Trust Us</div>
+      <div className="font-mono text-xs uppercase tracking-[0.25em] text-brand mb-3">Why Collectors Trust Us</div>
       <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
         Built for serious collectors
       </h2>
@@ -22,8 +22,8 @@ export const TrustSection = () => (
           data-testid={`trust-card-${it.title.toLowerCase().replace(/[^a-z]+/g, "-")}`}
           className="rounded-2xl border border-slate-800 bg-[#11151C] p-6 hover:border-slate-700 transition-colors"
         >
-          <div className="h-11 w-11 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mb-4">
-            <it.icon className="h-5 w-5 text-amber-400" />
+          <div className="h-11 w-11 rounded-xl bg-brand/10 border border-brand/30 flex items-center justify-center mb-4">
+            <it.icon className="h-5 w-5 text-brand" />
           </div>
           <h3 className="font-heading text-base font-bold text-white">{it.title}</h3>
           <p className="text-sm text-slate-400 mt-2 leading-relaxed">{it.desc}</p>

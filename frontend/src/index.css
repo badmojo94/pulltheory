@@ -8,6 +8,10 @@
   --font-heading: 'Syne', sans-serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --color-brand: #D72631;
+  --color-brand-light: #F0434E;
+  --color-brand-dark: #A2141D;
+  --color-paper: #F5EFE2;
 }
 
 /* `overline` is a Tailwind utility; without this an app's own eyebrow-label class draws a line above the text. */
@@ -127,19 +131,19 @@
         --card-foreground: 210 40% 98%;
         --popover: 216 22% 7%;
         --popover-foreground: 210 40% 98%;
-        --primary: 38 92% 50%;
-        --primary-foreground: 0 0% 7%;
+        --primary: 356 70% 48%;
+        --primary-foreground: 0 0% 100%;
         --secondary: 215 20% 15%;
         --secondary-foreground: 210 40% 98%;
         --muted: 215 20% 15%;
         --muted-foreground: 215 16% 60%;
-        --accent: 38 92% 50%;
-        --accent-foreground: 0 0% 7%;
+        --accent: 356 70% 48%;
+        --accent-foreground: 0 0% 100%;
         --destructive: 0 84.2% 60.2%;
         --destructive-foreground: 0 0% 98%;
         --border: 215 25% 18%;
         --input: 215 25% 18%;
-        --ring: 38 92% 50%;
+        --ring: 356 70% 48%;
         --chart-1: 12 76% 61%;
         --chart-2: 173 58% 39%;
         --chart-3: 197 37% 24%;

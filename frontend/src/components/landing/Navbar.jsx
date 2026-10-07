@@ -28,7 +28,7 @@ export const Navbar = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-      <div className="bg-black/90 text-center text-[11px] sm:text-xs font-mono tracking-wide text-amber-300/90 py-2 px-4 border-b border-slate-800/60">
+      <div className="bg-black/90 text-center text-[11px] sm:text-xs font-mono tracking-wide text-brand-light/90 py-2 px-4 border-b border-slate-800/60">
         100% GUARANTEED SEALED PRODUCTS · FREE EXPRESS SHIPPING ACROSS INDIA OVER ₹2,999
       </div>
       <nav
@@ -44,7 +44,7 @@ export const Navbar = () => {
               <div className="font-heading font-extrabold text-sm sm:text-base tracking-[0.18em] text-white">
                 THE PULL THEORY
               </div>
-              <div className="font-mono text-[9px] tracking-[0.3em] text-amber-400/80 mt-0.5">
+              <div className="font-mono text-[9px] tracking-[0.3em] text-brand/80 mt-0.5">
                 TCG SPECIALIST · EST. 2026
               </div>
             </div>
@@ -56,7 +56,7 @@ export const Navbar = () => {
                 key={l.label}
                 to={l.to}
                 data-testid={`nav-link-${l.label.toLowerCase().replace(/[^a-z]/g, "")}`}
-                className="text-sm text-slate-300 hover:text-amber-400 transition-colors"
+                className="text-sm text-slate-300 hover:text-brand transition-colors"
               >
                 {l.label}
               </Link>
@@ -64,7 +64,7 @@ export const Navbar = () => {
           </div>
 
           <div className="ml-auto flex items-center gap-2 sm:gap-3">
-            <Link to="/shop" className="hidden md:flex items-center gap-2 bg-[#11151C] border border-slate-800 rounded-full px-3 py-1.5 w-56 hover:border-amber-500/50 transition-colors">
+            <Link to="/shop" className="hidden md:flex items-center gap-2 bg-[#11151C] border border-slate-800 rounded-full px-3 py-1.5 w-56 hover:border-brand/50 transition-colors">
               <Search className="h-4 w-4 text-slate-500" />
               <span className="text-sm text-slate-500 flex-1 text-left">Search cards, sets, sealed…</span>
               <kbd className="font-mono text-[10px] text-slate-500 border border-slate-700 rounded px-1">⌘K</kbd>
@@ -73,7 +73,7 @@ export const Navbar = () => {
             {user ? (
               <>
                 {user.role === "admin" && (
-                  <Link to="/admin" data-testid="navbar-admin-link" className="hidden sm:block text-sm text-amber-400 hover:text-amber-300 px-2 py-1.5">Admin</Link>
+                  <Link to="/admin" data-testid="navbar-admin-link" className="hidden sm:block text-sm text-brand hover:text-brand-light px-2 py-1.5">Admin</Link>
                 )}
                 <Link to="/account/orders" data-testid="navbar-account-link" className="p-2 rounded-full hover:bg-slate-800/60 transition-colors">
                   <User className="h-5 w-5 text-slate-200" />
@@ -93,7 +93,7 @@ export const Navbar = () => {
               <ShoppingBag className="h-5 w-5 text-slate-200" />
               <span
                 data-testid="navbar-cart-count"
-                className="absolute -top-0.5 -right-0.5 bg-amber-500 text-black text-[10px] font-bold h-4 min-w-4 px-1 rounded-full flex items-center justify-center"
+                className="absolute -top-0.5 -right-0.5 bg-brand text-black text-[10px] font-bold h-4 min-w-4 px-1 rounded-full flex items-center justify-center"
               >
                 {count}
               </span>
@@ -112,11 +112,11 @@ export const Navbar = () => {
         {open && (
           <div className="lg:hidden border-t border-slate-800 bg-[#090B0E] px-4 py-4 flex flex-col gap-3">
             {LINKS.map((l) => (
-              <Link key={l.label} to={l.to} className="text-slate-300 hover:text-amber-400 py-1" onClick={() => setOpen(false)}>
+              <Link key={l.label} to={l.to} className="text-slate-300 hover:text-brand py-1" onClick={() => setOpen(false)}>
                 {l.label}
               </Link>
             ))}
-            {!user && <Link to="/login" className="text-amber-400 py-1" onClick={() => setOpen(false)}>Sign in</Link>}
+            {!user && <Link to="/login" className="text-brand py-1" onClick={() => setOpen(false)}>Sign in</Link>}
           </div>
         )}
       </nav>

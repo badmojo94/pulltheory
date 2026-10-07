@@ -8,7 +8,7 @@ import { useCart } from "@/context/CartContext";
 const stockBadge = (p) => {
   if (p.is_preorder) return { label: "Pre-Order", cls: "bg-purple-500/10 text-purple-300 border-purple-500/30" };
   if (p.stock <= 0) return { label: "Sold Out", cls: "bg-slate-500/10 text-slate-400 border-slate-600" };
-  if (p.stock <= 5) return { label: "Low Stock", cls: "bg-amber-500/10 text-amber-300 border-amber-500/30" };
+  if (p.stock <= 5) return { label: "Low Stock", cls: "bg-brand/10 text-brand-light border-brand/30" };
   return { label: "In Stock", cls: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" };
 };
 
@@ -24,7 +24,7 @@ export const ProductCard = ({ p, index = 0 }) => {
       viewport={{ once: true }}
       transition={{ duration: 0.45, delay: index * 0.05 }}
       data-testid={`product-card-${p.id}`}
-      className="group relative rounded-2xl border border-slate-800 bg-[#11151C] overflow-hidden hover:border-amber-500/50 transition-colors duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+      className="group relative rounded-2xl border border-slate-800 bg-[#11151C] overflow-hidden hover:border-brand/50 transition-colors duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
     >
       <Link to={`/product/${p.id}`} className="block relative aspect-[4/5] overflow-hidden bg-black">
         <img
@@ -46,7 +46,7 @@ export const ProductCard = ({ p, index = 0 }) => {
       <div className="p-4">
         <div className="font-mono text-[10px] uppercase tracking-wider text-slate-500">{p.set_name}</div>
         <Link to={`/product/${p.id}`}>
-          <h3 className="font-heading text-sm font-bold text-white mt-1 leading-snug line-clamp-2 min-h-[2.5rem] hover:text-amber-300 transition-colors">
+          <h3 className="font-heading text-sm font-bold text-white mt-1 leading-snug line-clamp-2 min-h-[2.5rem] hover:text-brand-light transition-colors">
             {p.name}
           </h3>
         </Link>
@@ -58,7 +58,7 @@ export const ProductCard = ({ p, index = 0 }) => {
           <button
             data-testid={`product-add-to-cart-${p.id}`}
             onClick={() => { add(p); toast.success("Added to cart", { description: p.name }); }}
-            className="inline-flex items-center gap-1 bg-amber-500 hover:bg-amber-400 text-black text-xs font-semibold px-3 py-2 rounded-full transition-colors"
+            className="inline-flex items-center gap-1 bg-brand hover:bg-brand-light text-black text-xs font-semibold px-3 py-2 rounded-full transition-colors"
           >
             <Plus className="h-3.5 w-3.5" /> Add
           </button>

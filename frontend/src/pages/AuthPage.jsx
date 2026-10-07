@@ -54,21 +54,21 @@ export default function AuthPage({ mode = "login" }) {
           <form onSubmit={submit} className="space-y-3">
             {!isLogin && (
               <input data-testid="auth-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Full name" required
-                className="w-full bg-[#090B0E] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-amber-500/60" />
+                className="w-full bg-[#090B0E] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-brand/60" />
             )}
             <input data-testid="auth-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="Email" required
-              className="w-full bg-[#090B0E] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-amber-500/60" />
+              className="w-full bg-[#090B0E] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-brand/60" />
             <input data-testid="auth-password" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="Password" required
-              className="w-full bg-[#090B0E] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-amber-500/60" />
+              className="w-full bg-[#090B0E] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-brand/60" />
             <button data-testid="auth-submit" disabled={busy} type="submit"
-              className="w-full bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-semibold py-2.5 rounded-full transition-colors">
+              className="w-full bg-brand hover:bg-brand-light disabled:opacity-50 text-black font-semibold py-2.5 rounded-full transition-colors">
               {busy ? "Please wait…" : isLogin ? "Sign in" : "Create account"}
             </button>
           </form>
 
           <div className="text-center text-sm text-slate-400 mt-5">
             {isLogin ? "New here? " : "Already have an account? "}
-            <button data-testid="auth-toggle" onClick={() => setIsLogin(!isLogin)} className="text-amber-400 hover:underline">
+            <button data-testid="auth-toggle" onClick={() => setIsLogin(!isLogin)} className="text-brand hover:underline">
               {isLogin ? "Create an account" : "Sign in"}
             </button>
           </div>

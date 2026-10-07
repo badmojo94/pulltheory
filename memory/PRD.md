@@ -30,6 +30,10 @@ Build a production-ready TCG ecommerce platform for an Indian trading card game 
 - Admin dashboard: stats (revenue/orders/products/customers), product list + add/delete, order status management, pre-order "release" that notifies reservers.
 - Verified via testing agent: 100% backend + frontend across 12 flows, zero console errors.
 
+### v3 — Brand palette + promos
+- Reworked palette around the official logo: crimson-red (`--color-brand #D72631`) + black ink on obsidian; replaced amber accent everywhere; shadcn primary/accent/ring set to crimson.
+- Promo codes: `promos` collection, admin create/list/delete (Promos tab), `/api/promo/validate`, discount applied + tracked at checkout with min-order, max-discount cap and usage-limit rules. Seeded `WELCOME10` (10%, cap ₹1000, min ₹1500) and `PULL500` (flat ₹500, min ₹4000).
+
 ## Known notes / MOCKED
 - **Razorpay is in DEMO payment mode** (RAZORPAY_KEY_ID/SECRET empty in backend/.env). Orders confirm without a real charge until the user adds live keys; full Razorpay Checkout code is wired and switches on automatically once keys are set.
 

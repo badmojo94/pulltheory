@@ -23,7 +23,7 @@ export const NewsletterFooter = () => {
     <footer className="border-t border-slate-800 bg-[#090B0E]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="rounded-3xl border border-slate-800 bg-gradient-to-br from-[#14100B] to-[#11151C] p-8 sm:p-12 mb-16 relative overflow-hidden">
-          <div className="absolute -top-20 -right-10 h-60 w-60 bg-amber-500/10 blur-3xl rounded-full" />
+          <div className="absolute -top-20 -right-10 h-60 w-60 bg-brand/10 blur-3xl rounded-full" />
           <div className="relative grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white">Join the VIP Collector Club</h3>
@@ -32,7 +32,7 @@ export const NewsletterFooter = () => {
               </p>
             </div>
             <form onSubmit={submit} className="flex gap-2">
-              <div className="flex-1 flex items-center gap-2 bg-[#090B0E] border border-slate-700 rounded-full px-4 focus-within:border-amber-500/60 transition-colors">
+              <div className="flex-1 flex items-center gap-2 bg-[#090B0E] border border-slate-700 rounded-full px-4 focus-within:border-brand/60 transition-colors">
                 <Mail className="h-4 w-4 text-slate-500" />
                 <input
                   data-testid="newsletter-email-input"
@@ -45,7 +45,7 @@ export const NewsletterFooter = () => {
               <button
                 data-testid="newsletter-submit-button"
                 type="submit"
-                className="inline-flex items-center gap-1 bg-amber-500 hover:bg-amber-400 text-black font-semibold px-5 py-3 rounded-full transition-colors shrink-0"
+                className="inline-flex items-center gap-1 bg-brand hover:bg-brand-light text-black font-semibold px-5 py-3 rounded-full transition-colors shrink-0"
               >
                 Join <ArrowRight className="h-4 w-4" />
               </button>
@@ -77,7 +77,7 @@ export const NewsletterFooter = () => {
               <ul className="space-y-2.5">
                 {items.map((i) => (
                   <li key={i}>
-                    <a href="#top" className="text-sm text-slate-400 hover:text-amber-400 transition-colors">{i}</a>
+                    <a href="#top" className="text-sm text-slate-400 hover:text-brand transition-colors">{i}</a>
                   </li>
                 ))}
               </ul>

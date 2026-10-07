@@ -14,7 +14,7 @@ export const Hero = () => (
       className="absolute inset-0 pointer-events-none"
       style={{
         background:
-          "radial-gradient(ellipse at 60% 0%, rgba(245,158,11,0.16) 0%, rgba(139,92,246,0.10) 45%, rgba(9,11,14,0) 75%)",
+          "radial-gradient(ellipse at 60% 0%, rgba(215,38,49,0.18) 0%, rgba(215,38,49,0.07) 42%, rgba(9,11,14,0) 75%)",
       }}
     />
     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-12 gap-10 items-center">
@@ -24,16 +24,16 @@ export const Hero = () => (
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="col-span-12 lg:col-span-7"
       >
-        <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-3 py-1 mb-6">
-          <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-amber-400">
+        <div className="inline-flex items-center gap-2 bg-brand/10 border border-brand/30 rounded-full px-3 py-1 mb-6">
+          <Sparkles className="h-3.5 w-3.5 text-brand" />
+          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-brand">
             India's TCG Specialist
           </span>
         </div>
         <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.05] text-white">
           Chase the pull.
           <br />
-          <span className="bg-gradient-to-r from-amber-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-brand-light via-brand to-brand-dark bg-clip-text text-transparent">
             Collect the proof.
           </span>
         </h1>
@@ -46,7 +46,7 @@ export const Hero = () => (
           <a
             href="/shop"
             data-testid="hero-explore-cta"
-            className="group inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-black font-semibold px-6 py-3 rounded-full transition-colors"
+            className="group inline-flex items-center gap-2 bg-brand hover:bg-brand-light text-black font-semibold px-6 py-3 rounded-full transition-colors"
           >
             Explore Sealed Stock
             <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -76,7 +76,7 @@ export const Hero = () => (
         className="col-span-12 lg:col-span-5 relative"
       >
         <div className="relative mx-auto max-w-sm">
-          <div className="absolute -inset-6 bg-gradient-to-tr from-amber-500/20 via-purple-500/20 to-cyan-500/20 blur-3xl rounded-full" />
+          <div className="absolute -inset-6 bg-gradient-to-tr from-brand/25 via-rose-600/15 to-rose-500/10 blur-3xl rounded-full" />
           <motion.img
             src={IMAGES.heroFoil}
             alt="Premium holographic booster pack"

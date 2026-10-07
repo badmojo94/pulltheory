@@ -22,7 +22,7 @@ export const PreOrderHighlights = () => {
     <section id="preorders" className="relative py-16 sm:py-24 border-y border-slate-800/80 bg-[#0B0E13]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="mb-10">
-          <div className="font-mono text-xs uppercase tracking-[0.25em] text-amber-400 mb-3">Release Radar</div>
+          <div className="font-mono text-xs uppercase tracking-[0.25em] text-brand mb-3">Release Radar</div>
           <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
             Lock Your Pre-Orders
           </h2>
@@ -50,13 +50,13 @@ export const PreOrderHighlights = () => {
                 <div className="p-5">
                   <h3 className="font-heading text-base font-bold text-white leading-snug">{p.name}</h3>
                   <div className="flex items-center gap-2 mt-3 text-xs text-slate-400 font-mono">
-                    <CalendarClock className="h-3.5 w-3.5 text-amber-400" />
+                    <CalendarClock className="h-3.5 w-3.5 text-brand" />
                     {countdown(p.release)} · {new Date(p.release).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
                   </div>
                   <a
                     href="/shop?preorder=true"
                     data-testid={`preorder-reserve-${p.id}`}
-                    className="mt-4 w-full inline-flex items-center justify-center gap-2 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black text-sm font-semibold py-2.5 rounded-full transition-colors"
+                    className="mt-4 w-full inline-flex items-center justify-center gap-2 border border-brand/40 text-brand-light hover:bg-brand hover:text-black text-sm font-semibold py-2.5 rounded-full transition-colors"
                   >
                     <Lock className="h-4 w-4" /> Reserve Slot
                   </a>

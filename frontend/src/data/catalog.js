@@ -20,7 +20,7 @@ export const LANG = {
 export const CATEGORIES = [
   { id: "pokemon", name: "Pokémon TCG", count: "1,240+ items", img: IMAGES.pokemonPacks, span: "lg:col-span-2 lg:row-span-2", accent: "from-yellow-500/20" },
   { id: "onepiece", name: "One Piece Card Game", count: "480+ items", img: IMAGES.onepiece, span: "lg:col-span-2", accent: "from-red-500/20" },
-  { id: "sealed", name: "Sealed Booster Boxes", count: "320+ items", img: IMAGES.pokemonBooster, span: "lg:col-span-1", accent: "from-amber-500/20" },
+  { id: "sealed", name: "Sealed Booster Boxes", count: "320+ items", img: IMAGES.pokemonBooster, span: "lg:col-span-1", accent: "from-brand/20" },
   { id: "singles", name: "Rare Singles", count: "6,500+ items", img: IMAGES.rareHolo, span: "lg:col-span-1", accent: "from-purple-500/20" },
   { id: "accessories", name: "Protection & Sleeves", count: "210+ items", img: IMAGES.collectorTable, span: "lg:col-span-2", accent: "from-cyan-500/20" },
 ];

@@ -23,7 +23,7 @@ export const NewArrivals = () => {
     <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
         <div>
-          <div className="font-mono text-xs uppercase tracking-[0.25em] text-amber-400 mb-3">Fresh on the Shelf</div>
+          <div className="font-mono text-xs uppercase tracking-[0.25em] text-brand mb-3">Fresh on the Shelf</div>
           <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
             New Arrivals & Featured
           </h2>

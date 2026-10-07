@@ -50,6 +50,11 @@ async def seed():
             doc["id"] = f"prod_{uuid.uuid4().hex[:10]}"
             doc["created_at"] = datetime.now(timezone.utc).isoformat()
             await db.products.insert_one(doc)
+    if await db.promos.count_documents({}) == 0:
+        await db.promos.insert_many([
+            {"code": "WELCOME10", "type": "percent", "value": 10, "min_order": 1500, "max_discount": 1000, "usage_limit": None, "active": True, "expires_at": None, "used_count": 0},
+            {"code": "PULL500", "type": "flat", "value": 500, "min_order": 4000, "max_discount": None, "usage_limit": None, "active": True, "expires_at": None, "used_count": 0},
+        ])
     await db.users.create_index("email", unique=True)
     await db.users.create_index("user_id")
     await db.products.create_index("id")

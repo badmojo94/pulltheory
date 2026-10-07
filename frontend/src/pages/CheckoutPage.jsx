@@ -23,6 +23,9 @@ export default function CheckoutPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
+  const [promo, setPromo] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [appliedCode, setAppliedCode] = useState("");
   const [ship, setShip] = useState({ name: user?.name || "", phone: "", address: "", city: "", state: "", pincode: "" });
 
   if (user === false) {
@@ -30,12 +33,26 @@ export default function CheckoutPage() {
     return null;
   }
   if (items.length === 0) {
-    return <div className="min-h-screen bg-[#090B0E]"><Navbar /><div className="pt-32 text-center text-slate-400">Your cart is empty. <a href="/shop" className="text-amber-400">Shop now</a></div></div>;
+    return <div className="min-h-screen bg-[#090B0E]"><Navbar /><div className="pt-32 text-center text-slate-400">Your cart is empty. <a href="/shop" className="text-brand">Shop now</a></div></div>;
   }
 
   const shippingFee = subtotal >= 2999 ? 0 : 99;
-  const total = subtotal + shippingFee;
+  const total = subtotal - discount + shippingFee;
   const amountDue = hasPreorder ? Math.round(total * 0.2) : total;
+
+  const applyPromo = async () => {
+    if (!promo.trim()) return;
+    try {
+      const { data } = await api.post("/promo/validate", { code: promo.trim(), subtotal });
+      setDiscount(data.discount);
+      setAppliedCode(data.code);
+      toast.success(`Promo ${data.code} applied — you saved ${inr(data.discount)}`);
+    } catch (e) {
+      setDiscount(0);
+      setAppliedCode("");
+      toast.error(e.response?.data?.detail || "Invalid promo code");
+    }
+  };
 
   const set = (k) => (e) => setShip({ ...ship, [k]: e.target.value });
 
@@ -48,6 +65,7 @@ export default function CheckoutPage() {
       const { data } = await api.post("/checkout", {
         items: items.map((i) => ({ product_id: i.id, quantity: i.quantity })),
         shipping: ship,
+        promo_code: appliedCode || null,
       });
       const order = data.order;
 
@@ -99,7 +117,7 @@ export default function CheckoutPage() {
             <div className="grid grid-cols-2 gap-3">
               {[["name", "Full name"], ["phone", "Phone"], ["address", "Address", true], ["city", "City"], ["state", "State"], ["pincode", "PIN code"]].map(([k, label, full]) => (
                 <input key={k} data-testid={`ship-${k}`} value={ship[k]} onChange={set(k)} placeholder={label}
-                  className={`bg-[#090B0E] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-amber-500/60 ${full ? "col-span-2" : ""}`} />
+                  className={`bg-[#090B0E] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-brand/60 ${full ? "col-span-2" : ""}`} />
               ))}
             </div>
           </div>
@@ -116,8 +134,15 @@ export default function CheckoutPage() {
                 </div>
               ))}
             </div>
+            <div className="flex gap-2 mb-4">
+              <input data-testid="promo-input" value={promo} onChange={(e) => setPromo(e.target.value.toUpperCase())} placeholder="Promo code"
+                className="flex-1 bg-[#090B0E] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder:text-slate-500 outline-none focus:border-brand/60 uppercase" />
+              <button data-testid="promo-apply" onClick={applyPromo}
+                className="px-4 rounded-lg border border-brand/40 text-brand-light text-sm font-semibold hover:bg-brand hover:text-white transition-colors">Apply</button>
+            </div>
             <div className="border-t border-slate-800 pt-3 space-y-2 text-sm">
               <div className="flex justify-between text-slate-300"><span>Subtotal</span><span>{inr(subtotal)}</span></div>
+              {discount > 0 && <div className="flex justify-between text-emerald-300"><span>Discount ({appliedCode})</span><span>-{inr(discount)}</span></div>}
               <div className="flex justify-between text-slate-300"><span>Shipping</span><span>{shippingFee === 0 ? "FREE" : inr(shippingFee)}</span></div>
               <div className="flex justify-between font-bold text-white text-base"><span>Total</span><span>{inr(total)}</span></div>
               {hasPreorder && (
@@ -127,7 +152,7 @@ export default function CheckoutPage() {
               )}
             </div>
             <button data-testid="place-order-button" disabled={busy} onClick={placeOrder}
-              className="w-full mt-5 inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-semibold py-3 rounded-full transition-colors">
+              className="w-full mt-5 inline-flex items-center justify-center gap-2 bg-brand hover:bg-brand-light disabled:opacity-50 text-black font-semibold py-3 rounded-full transition-colors">
               <Lock className="h-4 w-4" /> {busy ? "Processing…" : `Pay ${inr(amountDue)}`}
             </button>
             <p className="text-[11px] text-slate-500 mt-3 text-center">Secured by Razorpay · UPI · Cards · NetBanking</p>

@@ -101,6 +101,7 @@ class CheckoutInput(BaseModel):
     items: List[CartItem]
     shipping: dict
     is_preorder: bool = False
+    promo_code: Optional[str] = None
 
 
 async def _build_order(user, data: CheckoutInput):
@@ -114,16 +115,39 @@ async def _build_order(user, data: CheckoutInput):
         line_items.append({"product_id": p["id"], "name": p["name"], "image": p.get("image", ""),
                            "price": p["price"], "quantity": ci.quantity, "language": p.get("language", "EN")})
         subtotal += p["price"] * ci.quantity
+    discount, promo_code = await _apply_promo(data.promo_code, subtotal)
     shipping_fee = 0 if subtotal >= 2999 else 99
-    total = subtotal + shipping_fee
+    total = subtotal - discount + shipping_fee
     is_preorder = data.is_preorder or has_preorder
     amount_due = round(total * 0.20) if is_preorder else total
-    return line_items, subtotal, shipping_fee, total, is_preorder, amount_due
+    return line_items, subtotal, discount, promo_code, shipping_fee, total, is_preorder, amount_due
+
+
+async def _apply_promo(code, subtotal):
+    if not code:
+        return 0, None
+    promo = await db.promos.find_one({"code": code.upper(), "active": True}, {"_id": 0})
+    if not promo:
+        raise HTTPException(status_code=400, detail="Invalid or inactive promo code")
+    if promo.get("expires_at"):
+        exp = datetime.fromisoformat(promo["expires_at"])
+        if exp.tzinfo is None:
+            exp = exp.replace(tzinfo=timezone.utc)
+        if exp < datetime.now(timezone.utc):
+            raise HTTPException(status_code=400, detail="This promo code has expired")
+    if subtotal < promo.get("min_order", 0):
+        raise HTTPException(status_code=400, detail=f"Minimum order of ₹{promo['min_order']} required for this code")
+    if promo.get("usage_limit") and promo.get("used_count", 0) >= promo["usage_limit"]:
+        raise HTTPException(status_code=400, detail="This promo code has reached its usage limit")
+    disc = round(subtotal * promo["value"] / 100) if promo["type"] == "percent" else promo["value"]
+    if promo.get("max_discount"):
+        disc = min(disc, promo["max_discount"])
+    return min(disc, subtotal), promo["code"]
 
 
 @shop_router.post("/checkout")
 async def checkout(data: CheckoutInput, user=Depends(get_current_user)):
-    line_items, subtotal, shipping_fee, total, is_preorder, amount_due = await _build_order(user, data)
+    line_items, subtotal, discount, promo_code, shipping_fee, total, is_preorder, amount_due = await _build_order(user, data)
     order_id = f"TPT{datetime.now().strftime('%y%m%d')}{uuid.uuid4().hex[:6].upper()}"
     rzp_order = None
     if PAYMENTS_LIVE:
@@ -131,10 +155,12 @@ async def checkout(data: CheckoutInput, user=Depends(get_current_user)):
         rc = razorpay.Client(auth=(RZP_KEY, RZP_SECRET))
         rzp_order = rc.order.create({"amount": amount_due * 100, "currency": "INR",
                                      "receipt": order_id[:40], "payment_capture": 1})
+    if promo_code:
+        await db.promos.update_one({"code": promo_code}, {"$inc": {"used_count": 1}})
     doc = {"id": order_id, "user_id": user["user_id"], "email": user["email"],
-           "items": line_items, "subtotal": subtotal, "shipping_fee": shipping_fee,
-           "total": total, "amount_due": amount_due, "balance_due": total - amount_due,
-           "is_preorder": is_preorder, "shipping": data.shipping,
+           "items": line_items, "subtotal": subtotal, "discount": discount, "promo_code": promo_code,
+           "shipping_fee": shipping_fee, "total": total, "amount_due": amount_due,
+           "balance_due": total - amount_due, "is_preorder": is_preorder, "shipping": data.shipping,
            "status": "pending", "payment_status": "pending",
            "razorpay_order_id": rzp_order["id"] if rzp_order else None,
            "created_at": now_iso()}
@@ -142,6 +168,51 @@ async def checkout(data: CheckoutInput, user=Depends(get_current_user)):
     doc.pop("_id", None)
     return {"order": doc, "payments_live": PAYMENTS_LIVE, "razorpay_key_id": RZP_KEY,
             "amount": amount_due}
+
+
+class ValidatePromoInput(BaseModel):
+    code: str
+    subtotal: int
+
+
+@shop_router.post("/promo/validate")
+async def validate_promo(data: ValidatePromoInput, user=Depends(get_current_user)):
+    discount, code = await _apply_promo(data.code, data.subtotal)
+    return {"discount": discount, "code": code}
+
+
+class PromoInput(BaseModel):
+    code: str
+    type: str = "percent"
+    value: int
+    min_order: int = 0
+    max_discount: Optional[int] = None
+    usage_limit: Optional[int] = None
+    active: bool = True
+    expires_at: Optional[str] = None
+
+
+@shop_router.get("/promos")
+async def list_promos(admin=Depends(require_admin)):
+    return await db.promos.find({}, {"_id": 0}).to_list(200)
+
+
+@shop_router.post("/promos")
+async def create_promo(data: PromoInput, admin=Depends(require_admin)):
+    doc = data.model_dump()
+    doc["code"] = doc["code"].upper()
+    doc["used_count"] = 0
+    if await db.promos.find_one({"code": doc["code"]}):
+        raise HTTPException(status_code=400, detail="Promo code already exists")
+    await db.promos.insert_one(doc)
+    doc.pop("_id", None)
+    return doc
+
+
+@shop_router.delete("/promos/{code}")
+async def delete_promo(code: str, admin=Depends(require_admin)):
+    await db.promos.delete_one({"code": code.upper()})
+    return {"ok": True}
 
 
 class VerifyInput(BaseModel):

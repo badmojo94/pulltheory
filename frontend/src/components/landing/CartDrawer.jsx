@@ -17,7 +17,7 @@ export const CartDrawer = () => {
       <div className="absolute right-0 top-0 h-full w-full max-w-md bg-[#0B0E13] border-l border-slate-800 flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
         <div className="flex items-center justify-between p-5 border-b border-slate-800">
           <h3 className="font-heading font-bold text-white flex items-center gap-2">
-            <ShoppingBag className="h-5 w-5 text-amber-400" /> Your Cart ({count})
+            <ShoppingBag className="h-5 w-5 text-brand" /> Your Cart ({count})
           </h3>
           <button data-testid="cart-close" onClick={() => setOpen(false)} className="p-1.5 rounded-full hover:bg-slate-800">
             <X className="h-5 w-5 text-slate-300" />
@@ -28,7 +28,7 @@ export const CartDrawer = () => {
           {items.length === 0 && (
             <div className="text-center text-slate-400 mt-20">
               <p>Your cart is empty.</p>
-              <Link to="/shop" onClick={() => setOpen(false)} className="text-amber-400 text-sm mt-2 inline-block">Browse the vault →</Link>
+              <Link to="/shop" onClick={() => setOpen(false)} className="text-brand text-sm mt-2 inline-block">Browse the vault →</Link>
             </div>
           )}
           {items.map((i) => (
@@ -63,7 +63,7 @@ export const CartDrawer = () => {
             <button
               data-testid="cart-checkout-button"
               onClick={() => { setOpen(false); navigate("/checkout"); }}
-              className="w-full bg-amber-500 hover:bg-amber-400 text-black font-semibold py-3 rounded-full transition-colors"
+              className="w-full bg-brand hover:bg-brand-light text-black font-semibold py-3 rounded-full transition-colors"
             >
               Proceed to Checkout
             </button>

@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Navbar } from "@/components/landing/Navbar";
 
 const statusCls = {
-  pending: "text-amber-300 bg-amber-500/10 border-amber-500/30",
+  pending: "text-brand-light bg-brand/10 border-brand/30",
   confirmed: "text-emerald-300 bg-emerald-500/10 border-emerald-500/30",
   reserved: "text-purple-300 bg-purple-500/10 border-purple-500/30",
   shipped: "text-blue-300 bg-blue-500/10 border-blue-500/30",
@@ -41,10 +41,10 @@ export default function OrdersPage() {
 
         {notifs.length > 0 && (
           <div className="mb-8">
-            <div className="flex items-center gap-2 font-heading font-bold text-white mb-3"><Bell className="h-4 w-4 text-amber-400" /> Notifications</div>
+            <div className="flex items-center gap-2 font-heading font-bold text-white mb-3"><Bell className="h-4 w-4 text-brand" /> Notifications</div>
             <div className="space-y-2">
               {notifs.map((n) => (
-                <div key={n.id} data-testid={`notif-${n.id}`} className={`border rounded-xl p-3 ${n.read ? "border-slate-800 bg-[#11151C]" : "border-amber-500/30 bg-amber-500/5"}`}>
+                <div key={n.id} data-testid={`notif-${n.id}`} className={`border rounded-xl p-3 ${n.read ? "border-slate-800 bg-[#11151C]" : "border-brand/30 bg-brand/5"}`}>
                   <div className="text-sm font-semibold text-white">{n.title}</div>
                   <div className="text-xs text-slate-400">{n.body}</div>
                 </div>
@@ -53,9 +53,9 @@ export default function OrdersPage() {
           </div>
         )}
 
-        <div className="flex items-center gap-2 font-heading font-bold text-white mb-3"><Package className="h-4 w-4 text-amber-400" /> Order History</div>
+        <div className="flex items-center gap-2 font-heading font-bold text-white mb-3"><Package className="h-4 w-4 text-brand" /> Order History</div>
         {orders.length === 0 ? (
-          <div className="text-slate-400 py-10 text-center border border-slate-800 rounded-2xl">No orders yet. <Link to="/shop" className="text-amber-400">Start shopping</Link></div>
+          <div className="text-slate-400 py-10 text-center border border-slate-800 rounded-2xl">No orders yet. <Link to="/shop" className="text-brand">Start shopping</Link></div>
         ) : (
           <div className="space-y-4">
             {orders.map((o) => (
