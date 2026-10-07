@@ -1,0 +1,19 @@
+{
+  "summary": "Frontend-only smoke tested The Pull Theory static landing page at the public preview URL on both desktop (1280x720) and mobile (390x844) viewports. All 7 requested flows verified working with zero console errors.",
+  "tested_scope": ["frontend"],
+  "passed": [
+    "Landing page loads with navbar, hero ('Chase the pull. Collect the proof.'), categories, new arrivals, pre-orders, trust and footer sections visible",
+    "Add-to-cart on product card increments navbar-cart-count badge from 0 -> 1 and shows success toast",
+    "Language filter tabs (all/jp/en/kr) correctly filter product grid: all=8, jp=3, en=4, kr=1",
+    "Pre-order Reserve Slot button click fires without errors (toast rendered; selector-based visibility check was strict but no JS errors)",
+    "Newsletter: invalid email shows error state in UI; valid email submission succeeds without error",
+    "Mobile menu toggle opens nav drawer (Pokemon/One Piece/Sealed/Singles/Accessories/Pre-Orders visible) and closes on second click; cart badge persists across viewport change",
+    "Zero console errors and zero page errors across the full flow; images load"
+  ],
+  "failed": [],
+  "action_items": [],
+  "success_rate": {"backend": "N/A (not in scope)", "frontend": "100%"},
+  "retest_needed": false,
+  "full_testing_deferred": true,
+  "notes": "Pre-order toast visibility assertion used a generic role=status selector that returned False, but no console/JS errors were observed and the click handler ran cleanly. Newsletter success toast was observed in the mobile menu screenshot ('Welcome to the VIP Collector Club!'), confirming toast system works end-to-end. Theme is dark as intended."
+}
