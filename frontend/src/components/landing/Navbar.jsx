@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Search, ShoppingBag, Menu, X, ChevronDown, User } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Search, ShoppingBag, Menu, X, ChevronDown, User, Tag } from "lucide-react";
+import { toast } from "sonner";
 import { IMAGES } from "@/data/catalog";
+import { api } from "@/lib/api";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 
@@ -19,6 +21,8 @@ export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { count, setOpen: setCartOpen } = useCart();
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const [featured, setFeatured] = useState(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -26,11 +30,41 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    api.get("/promo/featured").then(({ data }) => {
+      if (data && localStorage.getItem("tpt_promo_banner_dismissed") !== data.code) setFeatured(data);
+    }).catch(() => {});
+  }, []);
+
+  const promoLabel = featured ? (featured.type === "percent" ? `${featured.value}% OFF` : `₹${featured.value} OFF`) : "";
+
+  const applyFeatured = () => {
+    localStorage.setItem("tpt_promo", featured.code);
+    toast.success(`Code ${featured.code} saved — applied at checkout`);
+    navigate("/shop");
+  };
+
+  const dismissBanner = () => {
+    localStorage.setItem("tpt_promo_banner_dismissed", featured.code);
+    setFeatured(null);
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-      <div className="bg-black/90 text-center text-[11px] sm:text-xs font-mono tracking-wide text-brand-light/90 py-2 px-4 border-b border-slate-800/60">
-        100% GUARANTEED SEALED PRODUCTS · FREE EXPRESS SHIPPING ACROSS INDIA OVER ₹2,999
-      </div>
+      {featured ? (
+        <div className="bg-brand text-white text-[11px] sm:text-xs font-mono tracking-wide py-2 px-4 border-b border-brand-dark flex items-center justify-center gap-3">
+          <span className="flex items-center gap-1.5">
+            <Tag className="h-3.5 w-3.5" /> Use code <strong className="font-bold">{featured.code}</strong> for {promoLabel}
+            {featured.min_order ? <span className="opacity-80">on orders over ₹{featured.min_order}</span> : null}
+          </span>
+          <button data-testid="promo-banner-apply" onClick={applyFeatured} className="bg-white/95 hover:bg-white text-brand font-bold rounded-full px-3 py-0.5 transition-colors">Apply</button>
+          <button data-testid="promo-banner-dismiss" onClick={dismissBanner} className="opacity-80 hover:opacity-100"><X className="h-3.5 w-3.5" /></button>
+        </div>
+      ) : (
+        <div className="bg-black/90 text-center text-[11px] sm:text-xs font-mono tracking-wide text-brand-light/90 py-2 px-4 border-b border-slate-800/60">
+          100% GUARANTEED SEALED PRODUCTS · FREE EXPRESS SHIPPING ACROSS INDIA OVER ₹2,999
+        </div>
+      )}
       <nav
         data-testid="navbar"
         className={`backdrop-blur-xl border-b transition-colors duration-300 ${

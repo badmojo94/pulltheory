@@ -55,6 +55,8 @@ async def seed():
             {"code": "WELCOME10", "type": "percent", "value": 10, "min_order": 1500, "max_discount": 1000, "usage_limit": None, "active": True, "expires_at": None, "used_count": 0},
             {"code": "PULL500", "type": "flat", "value": 500, "min_order": 4000, "max_discount": None, "usage_limit": None, "active": True, "expires_at": None, "used_count": 0},
         ])
+    await db.promos.update_many({"featured": {"$exists": False}}, {"$set": {"featured": False}})
+    await db.promos.update_one({"code": "WELCOME10"}, {"$set": {"featured": True}})
     await db.users.create_index("email", unique=True)
     await db.users.create_index("user_id")
     await db.products.create_index("id")

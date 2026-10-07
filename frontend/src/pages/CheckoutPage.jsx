@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Lock } from "lucide-react";
@@ -40,10 +40,12 @@ export default function CheckoutPage() {
   const total = subtotal - discount + shippingFee;
   const amountDue = hasPreorder ? Math.round(total * 0.2) : total;
 
-  const applyPromo = async () => {
-    if (!promo.trim()) return;
+  const applyPromo = async (codeArg) => {
+    const code = (typeof codeArg === "string" ? codeArg : promo).trim();
+    if (!code) return;
     try {
-      const { data } = await api.post("/promo/validate", { code: promo.trim(), subtotal });
+      const { data } = await api.post("/promo/validate", { code, subtotal });
+      setPromo(data.code);
       setDiscount(data.discount);
       setAppliedCode(data.code);
       toast.success(`Promo ${data.code} applied — you saved ${inr(data.discount)}`);
@@ -53,6 +55,15 @@ export default function CheckoutPage() {
       toast.error(e.response?.data?.detail || "Invalid promo code");
     }
   };
+
+  useEffect(() => {
+    const saved = localStorage.getItem("tpt_promo");
+    if (saved) {
+      localStorage.removeItem("tpt_promo");
+      applyPromo(saved);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const set = (k) => (e) => setShip({ ...ship, [k]: e.target.value });
 

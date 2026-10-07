@@ -17,7 +17,7 @@ export default function AdminPage() {
   const [orders, setOrders] = useState([]);
   const [form, setForm] = useState(EMPTY);
   const [promos, setPromos] = useState([]);
-  const [promoForm, setPromoForm] = useState({ code: "", type: "percent", value: 10, min_order: 0, max_discount: "", usage_limit: "" });
+  const [promoForm, setPromoForm] = useState({ code: "", type: "percent", value: 10, min_order: 0, max_discount: "", usage_limit: "", starts_at: "", expires_at: "", featured: false });
 
   const loadAll = () => {
     api.get("/admin/stats").then(({ data }) => setStats(data)).catch(() => {});
@@ -64,9 +64,12 @@ export default function AdminPage() {
         min_order: Number(promoForm.min_order) || 0,
         max_discount: promoForm.max_discount ? Number(promoForm.max_discount) : null,
         usage_limit: promoForm.usage_limit ? Number(promoForm.usage_limit) : null,
+        starts_at: promoForm.starts_at ? new Date(promoForm.starts_at).toISOString() : null,
+        expires_at: promoForm.expires_at ? new Date(promoForm.expires_at + "T23:59:59").toISOString() : null,
+        featured: promoForm.featured,
       });
       toast.success("Promo code created");
-      setPromoForm({ code: "", type: "percent", value: 10, min_order: 0, max_discount: "", usage_limit: "" });
+      setPromoForm({ code: "", type: "percent", value: 10, min_order: 0, max_discount: "", usage_limit: "", starts_at: "", expires_at: "", featured: false });
       loadAll();
     } catch (e) {
       toast.error(e.response?.data?.detail || "Failed");
@@ -182,6 +185,9 @@ export default function AdminPage() {
                 <input type="number" placeholder="Min order ₹" value={promoForm.min_order} onChange={(e) => setPromoForm({ ...promoForm, min_order: e.target.value })} className="bg-[#11151C] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white" />
                 <input type="number" placeholder="Max discount ₹ (opt)" value={promoForm.max_discount} onChange={(e) => setPromoForm({ ...promoForm, max_discount: e.target.value })} className="bg-[#11151C] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white" />
                 <input type="number" placeholder="Usage limit (opt)" value={promoForm.usage_limit} onChange={(e) => setPromoForm({ ...promoForm, usage_limit: e.target.value })} className="col-span-2 bg-[#11151C] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white" />
+                <label className="text-xs text-slate-400">Start date<input type="date" value={promoForm.starts_at} onChange={(e) => setPromoForm({ ...promoForm, starts_at: e.target.value })} className="mt-1 w-full bg-[#11151C] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white" /></label>
+                <label className="text-xs text-slate-400">End date<input type="date" value={promoForm.expires_at} onChange={(e) => setPromoForm({ ...promoForm, expires_at: e.target.value })} className="mt-1 w-full bg-[#11151C] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white" /></label>
+                <label className="col-span-2 flex items-center gap-2 text-sm text-slate-300"><input type="checkbox" data-testid="promo-featured" checked={promoForm.featured} onChange={(e) => setPromoForm({ ...promoForm, featured: e.target.checked })} /> Feature in site-wide banner</label>
               </div>
               <button data-testid="promo-create" type="submit" className="w-full bg-brand hover:bg-brand-light text-white font-semibold py-2.5 rounded-full transition-colors">Create Code</button>
             </form>
@@ -191,8 +197,14 @@ export default function AdminPage() {
               {promos.map((pr) => (
                 <div key={pr.code} data-testid={`promo-row-${pr.code}`} className="flex items-center justify-between border border-slate-800 bg-[#11151C] rounded-xl p-3">
                   <div>
-                    <div className="font-mono text-sm text-brand-light font-bold">{pr.code}</div>
+                    <div className="font-mono text-sm text-brand-light font-bold">{pr.code}{pr.featured ? " ★" : ""}</div>
                     <div className="text-xs text-slate-400">{pr.type === "percent" ? `${pr.value}% off` : `₹${pr.value} off`}{pr.min_order ? ` · min ₹${pr.min_order}` : ""}{pr.max_discount ? ` · cap ₹${pr.max_discount}` : ""} · used {pr.used_count || 0}{pr.usage_limit ? `/${pr.usage_limit}` : ""}</div>
+                    {(pr.starts_at || pr.expires_at) && (
+                      <div className="text-[11px] text-slate-500 mt-0.5">
+                        {pr.starts_at ? `from ${new Date(pr.starts_at).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}` : "active"}
+                        {pr.expires_at ? ` until ${new Date(pr.expires_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}` : ""}
+                      </div>
+                    )}
                   </div>
                   <button onClick={() => delPromo(pr.code)} className="text-slate-500 hover:text-red-400"><Trash2 className="h-4 w-4" /></button>
                 </div>

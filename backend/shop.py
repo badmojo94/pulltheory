@@ -129,6 +129,12 @@ async def _apply_promo(code, subtotal):
     promo = await db.promos.find_one({"code": code.upper(), "active": True}, {"_id": 0})
     if not promo:
         raise HTTPException(status_code=400, detail="Invalid or inactive promo code")
+    if promo.get("starts_at"):
+        st = datetime.fromisoformat(promo["starts_at"])
+        if st.tzinfo is None:
+            st = st.replace(tzinfo=timezone.utc)
+        if st > datetime.now(timezone.utc):
+            raise HTTPException(status_code=400, detail="This promo code is not active yet")
     if promo.get("expires_at"):
         exp = datetime.fromisoformat(promo["expires_at"])
         if exp.tzinfo is None:
@@ -189,7 +195,32 @@ class PromoInput(BaseModel):
     max_discount: Optional[int] = None
     usage_limit: Optional[int] = None
     active: bool = True
+    starts_at: Optional[str] = None
     expires_at: Optional[str] = None
+    featured: bool = False
+
+
+@shop_router.get("/promo/featured")
+async def featured_promo():
+    now = datetime.now(timezone.utc)
+    promos = await db.promos.find({"active": True, "featured": True}, {"_id": 0}).to_list(50)
+    for p in promos:
+        if p.get("starts_at"):
+            st = datetime.fromisoformat(p["starts_at"])
+            if st.tzinfo is None:
+                st = st.replace(tzinfo=timezone.utc)
+            if st > now:
+                continue
+        if p.get("expires_at"):
+            ex = datetime.fromisoformat(p["expires_at"])
+            if ex.tzinfo is None:
+                ex = ex.replace(tzinfo=timezone.utc)
+            if ex < now:
+                continue
+        if p.get("usage_limit") and p.get("used_count", 0) >= p["usage_limit"]:
+            continue
+        return {"code": p["code"], "type": p["type"], "value": p["value"], "min_order": p.get("min_order", 0)}
+    return None
 
 
 @shop_router.get("/promos")

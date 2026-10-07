@@ -30,6 +30,10 @@ Build a production-ready TCG ecommerce platform for an Indian trading card game 
 - Admin dashboard: stats (revenue/orders/products/customers), product list + add/delete, order status management, pre-order "release" that notifies reservers.
 - Verified via testing agent: 100% backend + frontend across 12 flows, zero console errors.
 
+### v4 — Promo scheduling + auto-apply banner
+- Promo codes now support `starts_at` / `expires_at` — `_apply_promo` and the featured endpoint enforce the active window (future codes blocked "not active yet", expired blocked). Admin form has start/end date pickers + "Feature in banner" toggle; list shows the date window and ★ for featured.
+- Public `GET /api/promo/featured` returns the currently-active featured code. Dismissible site-wide banner in the Navbar announcement bar advertises it; "Apply" saves the code to localStorage and checkout auto-applies it on load. Dismiss is remembered per code.
+
 ### v3 — Brand palette + promos
 - Reworked palette around the official logo: crimson-red (`--color-brand #D72631`) + black ink on obsidian; replaced amber accent everywhere; shadcn primary/accent/ring set to crimson.
 - Promo codes: `promos` collection, admin create/list/delete (Promos tab), `/api/promo/validate`, discount applied + tracked at checkout with min-order, max-discount cap and usage-limit rules. Seeded `WELCOME10` (10%, cap ₹1000, min ₹1500) and `PULL500` (flat ₹500, min ₹4000).
